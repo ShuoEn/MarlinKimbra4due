@@ -55,18 +55,18 @@
   #define ORIG_FAN_PIN            9
   #define PS_ON_PIN               12
 
-  #define ORIG_HEATER_0_PIN       10  // Hotend 1
-  #define ORIG_HEATER_1_PIN        7  // Hotend 2
-  #define ORIG_HEATER_2_PIN       -1
-  #define ORIG_HEATER_3_PIN       -1
+  #define ORIG_HOTEND_0_PIN       10  // Hotend 1
+  #define ORIG_HOTEND_1_PIN        7  // Hotend 2
+  #define ORIG_HOTEND_2_PIN       -1
+  #define ORIG_HOTEND_3_PIN       -1
 
   #define ORIG_TEMP_0_PIN         13  // ANALOG NUMBERING
   #define ORIG_TEMP_1_PIN         15  // ANALOG NUMBERING
   #define ORIG_TEMP_2_PIN         -1  // ANALOG NUMBERING
   #define ORIG_TEMP_3_PIN         -1  // ANALOG NUMBERING
 
-  #define ORIG_HEATER_BED_PIN     8   // BED
-  #define ORIG_TEMP_BED_PIN       14  // ANALOG NUMBERING
+  #define ORIG_BED_0_PIN     8   // BED
+  #define ORIG_TEMP_BED_0_PIN       14  // ANALOG NUMBERING
 
   #if ENABLED(REPRAP_DISCOUNT_SMART_CONTROLLER) || ENABLED(G3D_PANEL)
     #define KILL_PIN              41

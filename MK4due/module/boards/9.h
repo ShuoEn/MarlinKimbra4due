@@ -33,9 +33,9 @@
 #define ORIG_PS_ON_PIN         14
 #define KILL_PIN           -1
 
-#define ORIG_HEATER_0_PIN       12 // (extruder)
+#define ORIG_HOTEND_0_PIN       12 // (extruder)
 
-#define ORIG_HEATER_BED_PIN     16 // (bed)
+#define ORIG_BED_0_PIN     16 // (bed)
 #define ORIG_X_ENABLE_PIN       19
 #define ORIG_Y_ENABLE_PIN       24
 #define ORIG_Z_ENABLE_PIN       29
@@ -44,8 +44,8 @@
 #define ORIG_TEMP_0_PIN          0   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!! (pin 33 extruder)
 #define ORIG_TEMP_1_PIN         -1
 #define ORIG_TEMP_2_PIN         -1
-#define ORIG_TEMP_BED_PIN        5   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!! (pin 34 bed)
+#define ORIG_TEMP_BED_0_PIN        5   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!! (pin 34 bed)
 #define SDPOWER            -1
 #define SDSS               4
-#define ORIG_HEATER_2_PIN       -1
+#define ORIG_HOTEND_2_PIN       -1
 

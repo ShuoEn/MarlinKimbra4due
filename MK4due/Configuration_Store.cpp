@@ -16,7 +16,7 @@
  *
  */
 
-#define EEPROM_VERSION "MKV428"
+#define EEPROM_VERSION "MKV430"
 
 /**
  * MKV428 EEPROM Layout:
@@ -35,11 +35,7 @@
  *  M205  Z               max_z_jerk
  *  M205  E   E0 ...      max_e_jerk (per extruder)
  *  M206  XYZ             home_offset (x3)
- *  M218  T   XY          hotend_offset (x4) (T0..3)
  *  M666  P               zprobe_zoffset
- *
- * HOTENDS AD595:
- *  M595  H OS            Hotend AD595 Offset & Gain
  *
  * DELTA:
  *  M666  XYZ             endstop_adj (x3)
@@ -64,15 +60,11 @@
  *  M145  S2  B           gumPreheatHPBTemp
  *  M145  S2  F           gumPreheatFanSpeed
  *
- * PIDTEMP:
- *  M301  E0  PIDC        Kp[0], Ki[0], Kd[0], Kc[0]
- *  M301  E1  PIDC        Kp[1], Ki[1], Kd[1], Kc[1]
- *  M301  E2  PIDC        Kp[2], Ki[2], Kd[2], Kc[2]
- *  M301  E3  PIDC        Kp[3], Ki[3], Kd[3], Kc[3]
- *  M301  L               lpq_len
+ * HOTENDS:
  *
- * PIDTEMPBED:
- *  M304      PID         bedKp, bedKi, bedKd
+ * BED:
+ *
+ *  M301  L               lpq_len
  *
  * DOGLCD:
  *  M250  C               lcd_contrast
@@ -151,15 +143,9 @@ void Config_StoreSettings() {
   EEPROM_WRITE_VAR(i, max_z_jerk);
   EEPROM_WRITE_VAR(i, max_e_jerk);
   EEPROM_WRITE_VAR(i, home_offset);
-  EEPROM_WRITE_VAR(i, hotend_offset);
 
   #if !MECH(DELTA)
     EEPROM_WRITE_VAR(i, zprobe_zoffset);
-  #endif
-
-  #if HEATER_USES_AD595
-    EEPROM_WRITE_VAR(i, ad595_offset);
-    EEPROM_WRITE_VAR(i, ad595_gain);
   #endif
 
   #if MECH(DELTA)
@@ -190,25 +176,16 @@ void Config_StoreSettings() {
   EEPROM_WRITE_VAR(i, gumPreheatHPBTemp);
   EEPROM_WRITE_VAR(i, gumPreheatFanSpeed);
 
-  #if ENABLED(PIDTEMP)
-    for (int h = 0; h < HOTENDS; h++) {
-      EEPROM_WRITE_VAR(i, PID_PARAM(Kp, h));
-      EEPROM_WRITE_VAR(i, PID_PARAM(Ki, h));
-      EEPROM_WRITE_VAR(i, PID_PARAM(Kd, h));
-      EEPROM_WRITE_VAR(i, PID_PARAM(Kc, h));
-    }
-  #endif
+  for(uint8_t h = 0; h < HOTENDS; h++)
+    EEPROM_WRITE_VAR(i, Hotends[h]);
+
+  for(uint8_t h = 0; h < BEDS; h++)
+    EEPROM_WRITE_VAR(i, Beds[h]);
 
   #if DISABLED(PID_ADD_EXTRUSION_RATE)
     int lpq_len = 20;
   #endif
   EEPROM_WRITE_VAR(i, lpq_len);
-  
-  #if ENABLED(PIDTEMPBED)
-    EEPROM_WRITE_VAR(i, bedKp);
-    EEPROM_WRITE_VAR(i, bedKi);
-    EEPROM_WRITE_VAR(i, bedKd);
-  #endif
 
   #if HASNT(LCD_CONTRAST)
     const int lcd_contrast = 32;
@@ -298,17 +275,9 @@ void Config_RetrieveSettings() {
     EEPROM_READ_VAR(i, max_z_jerk);
     EEPROM_READ_VAR(i, max_e_jerk);
     EEPROM_READ_VAR(i, home_offset);
-    EEPROM_READ_VAR(i, hotend_offset);
 
     #if !MECH(DELTA)
       EEPROM_READ_VAR(i, zprobe_zoffset);
-    #endif
-
-    #if HEATER_USES_AD595
-      EEPROM_READ_VAR(i, ad595_offset);
-      EEPROM_READ_VAR(i, ad595_gain);
-      for (int8_t h = 0; h < HOTENDS; h++)
-        if (ad595_gain[h] == 0) ad595_gain[h] == TEMP_SENSOR_AD595_GAIN;
     #endif
 
     #if MECH(DELTA)
@@ -339,25 +308,16 @@ void Config_RetrieveSettings() {
     EEPROM_READ_VAR(i, gumPreheatHPBTemp);
     EEPROM_READ_VAR(i, gumPreheatFanSpeed);
 
-    #if ENABLED(PIDTEMP)
-      for (int8_t h = 0; h < HOTENDS; h++) {
-        EEPROM_READ_VAR(i, PID_PARAM(Kp, h));
-        EEPROM_READ_VAR(i, PID_PARAM(Ki, h));
-        EEPROM_READ_VAR(i, PID_PARAM(Kd, h));
-        EEPROM_READ_VAR(i, PID_PARAM(Kc, h));
-      }
-    #endif // PIDTEMP
+    for(uint8_t h = 0; h < HOTENDS; h++)
+      EEPROM_READ_VAR(i, Hotends[h]);
+
+    for(uint8_t h = 0; h < BEDS; h++)
+      EEPROM_READ_VAR(i, Beds[h]);
 
     #if DISABLED(PID_ADD_EXTRUSION_RATE)
       int lpq_len;
     #endif
     EEPROM_READ_VAR(i, lpq_len);
-
-    #if ENABLED(PIDTEMPBED)
-      EEPROM_READ_VAR(i, bedKp);
-      EEPROM_READ_VAR(i, bedKi);
-      EEPROM_READ_VAR(i, bedKd);
-    #endif
 
     #if HASNT(LCD_CONTRAST)
       int lcd_contrast;
@@ -479,19 +439,19 @@ void Config_ResetDefault() {
         max_e_jerk[i] = tmp5[max_i - 1];
       max_i = sizeof(tmp10) / sizeof(*tmp10);
       if(i < max_i)
-        hotend_offset[X_AXIS][i] = tmp10[i];
+        Hotends[i].hotend_offset[X_AXIS] = tmp10[i];
       else
-        hotend_offset[X_AXIS][i] = 0;
+        Hotends[i].hotend_offset[X_AXIS] = 0;
       max_i = sizeof(tmp11) / sizeof(*tmp11);
       if(i < max_i)
-        hotend_offset[Y_AXIS][i] = tmp11[i];
+        Hotends[i].hotend_offset[Y_AXIS] = tmp11[i];
       else
-        hotend_offset[Y_AXIS][i] = 0;
+        Hotends[i].hotend_offset[Y_AXIS] = 0;
       max_i = sizeof(tmp12) / sizeof(*tmp12);
       if(i < max_i)
-        hotend_offset[Z_AXIS][i] = tmp12[i];
+        Hotends[i].hotend_offset[Z_AXIS] = tmp12[i];
       else
-        hotend_offset[Z_AXIS][i] = 0;
+        Hotends[i].hotend_offset[Z_AXIS] = 0;
     }
     #if MB(ALLIGATOR)
       max_i = sizeof(tmp13) / sizeof(*tmp13);
@@ -567,10 +527,10 @@ void Config_ResetDefault() {
 
   #if ENABLED(PIDTEMP)
     for (int8_t h = 0; h < HOTENDS; h++) {
-      Kp[h] = tmp6[h];
-      Ki[h] = scalePID_i(tmp7[h]);
-      Kd[h] = scalePID_d(tmp8[h]);
-      Kc[h] = tmp9[h];
+      Hotends[h].Kp = tmp6[h];
+      Hotends[h].Ki = scalePID_i(tmp7[h]);
+      Hotends[h].Kd = scalePID_d(tmp8[h]);
+      Hotends[h].Kc = tmp9[h];
     }
     #if ENABLED(PID_ADD_EXTRUSION_RATE)
       lpq_len = 20; // default last-position-queue size
@@ -580,9 +540,12 @@ void Config_ResetDefault() {
   #endif // PIDTEMP
 
   #if ENABLED(PIDTEMPBED)
-    bedKp = DEFAULT_bedKp;
-    bedKi = scalePID_i(DEFAULT_bedKi);
-    bedKd = scalePID_d(DEFAULT_bedKd);
+    for (int8_t h = 0; h < BEDS; h++) {
+      Beds[h].Kp = DEFAULT_bedKp;
+      Beds[h].Ki = scalePID_i(DEFAULT_bedKi);
+      Beds[h].Kd = scalePID_d(DEFAULT_bedKd);
+      Beds[h].Kc = 100;
+    }
   #endif
 
   #if ENABLED(FWRETRACT)
@@ -710,9 +673,9 @@ void Config_ResetDefault() {
     }
     for (int8_t h = 0; h < HOTENDS; h++) {
       ECHO_SMV(CFG, "  M218 T", h);
-      ECHO_MV(" X", hotend_offset[X_AXIS][h]);
-      ECHO_MV(" Y", hotend_offset[Y_AXIS][h]);
-      ECHO_EMV(" Z", hotend_offset[Z_AXIS][h]);
+      ECHO_MV(" X", Hotends[h].hotend_offset[X_AXIS]);
+      ECHO_MV(" Y", Hotends[h].hotend_offset[Y_AXIS]);
+      ECHO_EMV(" Z", Hotends[h].hotend_offset[Z_AXIS]);
     }
 
     #if HEATER_USES_AD595
@@ -721,8 +684,8 @@ void Config_ResetDefault() {
       }
       for (int8_t h = 0; h < HOTENDS; h++) {
         ECHO_SMV(CFG, "  M595 T", h);
-        ECHO_MV(" O", ad595_offset[h]);
-        ECHO_EMV(", S", ad595_gain[h]);
+        ECHO_MV(" O", Hotends[h].ad595_offset);
+        ECHO_EMV(", S", Hotends[h].ad595_gain);
       }
     #endif // HEATER_USES_AD595
 
@@ -794,11 +757,11 @@ void Config_ResetDefault() {
       #if ENABLED(PIDTEMP)
         for (uint8_t h = 0; h < HOTENDS; h++) {
           ECHO_SMV(CFG, "  M301 H", h);
-          ECHO_MV(" P", PID_PARAM(Kp, h));
-          ECHO_MV(" I", unscalePID_i(PID_PARAM(Ki, h)));
-          ECHO_MV(" D", unscalePID_d(PID_PARAM(Kd, h)));
+          ECHO_MV(" P", Hotends[h].Kp);
+          ECHO_MV(" I", unscalePID_i(Hotends[h].Ki));
+          ECHO_MV(" D", unscalePID_d(Hotends[h].Kd));
           #if ENABLED(PID_ADD_EXTRUSION_RATE)
-            ECHO_MV(" C", PID_PARAM(Kc, h));
+            ECHO_MV(" C", Hotends[h].Kc);
           #endif
           ECHO_E;
         }

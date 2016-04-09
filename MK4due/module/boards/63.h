@@ -70,13 +70,13 @@
   #define ORIG_PS_ON_PIN          -1
   #define KILL_PIN                -1
 
-  #define ORIG_HEATER_0_PIN       13 // (extruder)
-  #define ORIG_HEATER_1_PIN       -1
-  #define ORIG_HEATER_2_PIN       -1
+  #define ORIG_HOTEND_0_PIN       13 // (extruder)
+  #define ORIG_HOTEND_1_PIN       -1
+  #define ORIG_HOTEND_2_PIN       -1
 
   #if ENABLED(SANGUINOLOLU_V_1_2)
 
-    #define ORIG_HEATER_BED_PIN   12 // (bed)
+    #define ORIG_BED_0_PIN   12 // (bed)
     #define ORIG_X_ENABLE_PIN     14
     #define ORIG_Y_ENABLE_PIN     14
     #define ORIG_Z_ENABLE_PIN     26
@@ -88,7 +88,7 @@
 
   #else
 
-    #define ORIG_HEATER_BED_PIN   14  // (bed)
+    #define ORIG_BED_0_PIN   14  // (bed)
     #define ORIG_X_ENABLE_PIN     -1
     #define ORIG_Y_ENABLE_PIN     -1
     #define ORIG_Z_ENABLE_PIN     -1
@@ -99,7 +99,7 @@
     #define ORIG_TEMP_0_PIN        7   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!! (pin 33 extruder)
     #define ORIG_TEMP_1_PIN       -1
     #define ORIG_TEMP_2_PIN       -1
-    #define ORIG_TEMP_BED_PIN      6   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!! (pin 34 bed)
+    #define ORIG_TEMP_BED_0_PIN      6   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!! (pin 34 bed)
     #define SDPOWER               -1
     #define SDSS                  31
 

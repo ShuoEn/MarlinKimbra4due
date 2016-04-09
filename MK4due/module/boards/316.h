@@ -50,15 +50,15 @@
 #define ORIG_FAN2_PIN            7
 #define ORIG_PS_ON_PIN          17
 
-#define ORIG_HEATER_0_PIN        5
-#define ORIG_HEATER_1_PIN        2
-#define ORIG_HEATER_2_PIN       -1
-#define ORIG_HEATER_3_PIN       -1
+#define ORIG_HOTEND_0_PIN        5
+#define ORIG_HOTEND_1_PIN        2
+#define ORIG_HOTEND_2_PIN       -1
+#define ORIG_HOTEND_3_PIN       -1
 
 #define ORIG_TEMP_0_PIN          2  // ANALOG NUMBERING
 #define ORIG_TEMP_1_PIN          4  // ANALOG NUMBERING
 #define ORIG_TEMP_2_PIN         -1  // ANALOG NUMBERING
 #define ORIG_TEMP_3_PIN         -1  // ANALOG NUMBERING
 
-#define ORIG_HEATER_BED_PIN      4  // BED
-#define ORIG_TEMP_BED_PIN        1  // ANALOG NUMBERING
+#define ORIG_BED_0_PIN      4  // BED
+#define ORIG_TEMP_BED_0_PIN        1  // ANALOG NUMBERING

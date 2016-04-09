@@ -36,12 +36,12 @@
   #define ORIG_TEMP_0_PIN        1
   #define ORIG_TEMP_1_PIN       -1
   #define ORIG_TEMP_2_PIN       -1
-  #define ORIG_TEMP_BED_PIN      0
+  #define ORIG_TEMP_BED_0_PIN      0
 
-  #define ORIG_HEATER_0_PIN      4
-  #define ORIG_HEATER_1_PIN     -1
-  #define ORIG_HEATER_2_PIN     -1
-  #define ORIG_HEATER_BED_PIN    3
+  #define ORIG_HOTEND_0_PIN      4
+  #define ORIG_HOTEND_1_PIN     -1
+  #define ORIG_HOTEND_2_PIN     -1
+  #define ORIG_BED_0_PIN    3
 
   #define KILL_PIN         -1
 

@@ -17,6 +17,7 @@
 
 #include "Configuration_Version.h"
 #include "Configuration_Basic.h"
+#include "Configuration_Heated.h"
 #include "Configuration_Overall.h"
 
 #if MECH(CARTESIAN)
@@ -42,6 +43,7 @@
 #include "module/sanitycheck.h"
 #include "module/HAL/HAL.h"
 #include "module/communication/communication.h"
+#include "module/tools/heated.h"
 
 #include "Configuration_Store.h"
 
@@ -53,8 +55,6 @@
 #include "module/motion/vector_3.h"
 #include "module/motion/qr_solve.h"
 #include "module/motion/cartesian_correction.h"
-#include "module/temperature/temperature.h"
-#include "module/temperature/thermistortables.h"
 #include "module/lcd/ultralcd.h"
 #include "module/lcd/buzzer.h"
 #include "module/nextion/Nextion_lcd.h"

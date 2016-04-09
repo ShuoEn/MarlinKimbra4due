@@ -67,13 +67,13 @@
 #define KILL_PIN                -1
 
 
-#define ORIG_HEATER_BED_PIN      8  // BED
+#define ORIG_BED_0_PIN      8  // BED
 
-#define ORIG_HEATER_0_PIN        9
-#define ORIG_HEATER_1_PIN       10
-#define ORIG_HEATER_2_PIN       11
+#define ORIG_HOTEND_0_PIN        9
+#define ORIG_HOTEND_1_PIN       10
+#define ORIG_HOTEND_2_PIN       11
 
-#define ORIG_TEMP_BED_PIN        0  // ANALOG NUMBERING
+#define ORIG_TEMP_BED_0_PIN        0  // ANALOG NUMBERING
 
 #define ORIG_TEMP_0_PIN          1  // ANALOG NUMBERING
 #define ORIG_TEMP_1_PIN          2  // ANALOG NUMBERING

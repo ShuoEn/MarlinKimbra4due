@@ -34,6 +34,11 @@
 #define NOMORE(v,n) do{ if (v > n) v = n; }while(0)
 #define COUNT(a) (sizeof(a)/sizeof(*a))
 
+// Temp macro
+#define CELSIUS_EXTRA_BITS 3
+#define TEMP_INT_TO_FLOAT(temp) ((float)(temp)/(float)(1<<CELSIUS_EXTRA_BITS))
+#define TEMP_FLOAT_TO_INT(temp) ((int)((temp)*(1<<CELSIUS_EXTRA_BITS)))
+
 // Function macro
 #define  FORCE_INLINE __attribute__((always_inline)) inline
 

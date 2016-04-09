@@ -36,16 +36,16 @@
 #define ORIG_E0_ENABLE_PIN      22
 #define E0_ATT_PIN              20
 
-#define ORIG_HEATER_0_PIN        4  // Extruder
-#define ORIG_HEATER_1_PIN       -1
-#define ORIG_HEATER_2_PIN       -1
-#define ORIG_HEATER_BED_PIN     38  // Bed
+#define ORIG_HOTEND_0_PIN        4  // Extruder
+#define ORIG_HOTEND_1_PIN       -1
+#define ORIG_HOTEND_2_PIN       -1
+#define ORIG_BED_0_PIN     38  // Bed
 #define ORIG_FAN_PIN             3  // Fan
 
 #define ORIG_TEMP_0_PIN          7  // Extruder / Analog pin numbering
 #define ORIG_TEMP_1_PIN         -1
 #define ORIG_TEMP_2_PIN         -1
-#define ORIG_TEMP_BED_PIN        6  // Bed / Analog pin numbering
+#define ORIG_TEMP_BED_0_PIN        6  // Bed / Analog pin numbering
 
 #define SDPOWER            -1
 #define SDSS               -1

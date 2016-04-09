@@ -35,10 +35,10 @@
 #define ORIG_E0_DIR_PIN          7
 #define ORIG_E0_ENABLE_PIN      19
 
-#define ORIG_HEATER_0_PIN       21  // Extruder
-#define ORIG_HEATER_1_PIN       -1
-#define ORIG_HEATER_2_PIN       -1
-#define ORIG_HEATER_BED_PIN     20  // Bed
+#define ORIG_HOTEND_0_PIN       21  // Extruder
+#define ORIG_HOTEND_1_PIN       -1
+#define ORIG_HOTEND_2_PIN       -1
+#define ORIG_BED_0_PIN     20  // Bed
 #define ORIG_FAN_PIN            22  // Fan
 // You may need to change ORIG_FAN_PIN to 16 because Marlin isn't using fastio.h
 // for the fan and Teensyduino uses a different pin mapping.
@@ -48,13 +48,13 @@
   #define Y_STOP_PIN         14
   #define Z_STOP_PIN         15
   #define ORIG_TEMP_0_PIN          7  // Extruder / Analog pin numbering
-  #define ORIG_TEMP_BED_PIN        6  // Bed / Analog pin numbering
+  #define ORIG_TEMP_BED_0_PIN        6  // Bed / Analog pin numbering
 #else  // Printrboard
   #define X_STOP_PIN         35
   #define Y_STOP_PIN          8
   #define Z_STOP_PIN         36
   #define ORIG_TEMP_0_PIN          1  // Extruder / Analog pin numbering
-  #define ORIG_TEMP_BED_PIN        0  // Bed / Analog pin numbering
+  #define ORIG_TEMP_BED_0_PIN        0  // Bed / Analog pin numbering
 #endif
 
 #define ORIG_TEMP_1_PIN         -1

@@ -105,20 +105,23 @@
   #define ORIG_E5_STEP_PIN    -1
 #endif
 
-#ifndef ORIG_HEATER_1_PIN
-  #define ORIG_HEATER_1_PIN   -1
+#ifndef ORIG_HOTEND_0_PIN
+  #define ORIG_HOTEND_0_PIN   -1
+#endif
+#ifndef ORIG_HOTEND_1_PIN
+  #define ORIG_HOTEND_1_PIN   -1
 #endif
 #ifndef ORIG_TEMP_1_PIN
   #define ORIG_TEMP_1_PIN     -1
 #endif
-#ifndef ORIG_HEATER_2_PIN
-  #define ORIG_HEATER_2_PIN   -1
+#ifndef ORIG_HOTEND_2_PIN
+  #define ORIG_HOTEND_2_PIN   -1
 #endif
 #ifndef ORIG_TEMP_2_PIN
   #define ORIG_TEMP_2_PIN     -1
 #endif
-#ifndef ORIG_HEATER_3_PIN
-  #define ORIG_HEATER_3_PIN   -1
+#ifndef ORIG_HOTEND_3_PIN
+  #define ORIG_HOTEND_3_PIN   -1
 #endif
 #ifndef ORIG_TEMP_3_PIN
   #define ORIG_TEMP_3_PIN     -1
@@ -275,24 +278,45 @@
 
 // List of pins which to ignore when asked to change by gcode, 0 and 1 are RX and TX, do not mess with those!
 #if HOTENDS > 0
-  #define _H0_PINS HEATER_0_PIN, analogInputToDigitalPin(TEMP_0_PIN),
+  #define _H0_PINS HOTEND_0_PIN, analogInputToDigitalPin(TEMP_0_PIN),
 #else
   #define _H0_PINS
 #endif
 #if HOTENDS > 1
-  #define _H1_PINS HEATER_1_PIN, analogInputToDigitalPin(TEMP_1_PIN),
+  #define _H1_PINS HOTEND_1_PIN, analogInputToDigitalPin(TEMP_1_PIN),
 #else
   #define _H1_PINS
 #endif
 #if HOTENDS > 2
-  #define _H2_PINS HEATER_2_PIN, analogInputToDigitalPin(TEMP_2_PIN),
+  #define _H2_PINS HOTEND_2_PIN, analogInputToDigitalPin(TEMP_2_PIN),
 #else
   #define _H2_PINS
 #endif
 #if HOTENDS > 3
-  #define _H3_PINS HEATER_3_PIN, analogInputToDigitalPin(TEMP_3_PIN),
+  #define _H3_PINS HOTEND_3_PIN, analogInputToDigitalPin(TEMP_3_PIN),
 #else
   #define _H3_PINS
+#endif
+
+#if BEDS > 0
+  #define _B0_PINS BED_0_PIN, analogInputToDigitalPin(TEMP_BED_0_PIN),
+#else
+  #define _B0_PINS
+#endif
+#if BEDS > 1
+  #define _B1_PINS BED_1_PIN, analogInputToDigitalPin(TEMP_BED_1_PIN),
+#else
+  #define _B1_PINS
+#endif
+#if BEDS > 2
+  #define _B2_PINS BED_2_PIN, analogInputToDigitalPin(TEMP_BED_2_PIN),
+#else
+  #define _B2_PINS
+#endif
+#if BEDS > 3
+  #define _B3_PINS BED_3_PIN, analogInputToDigitalPin(TEMP_BED_3_PIN),
+#else
+  #define _B3_PINS
 #endif
 
 #if DRIVER_EXTRUDERS > 0
@@ -330,10 +354,10 @@
                         X_STEP_PIN, X_DIR_PIN, X_ENABLE_PIN, X_MIN_PIN, X_MAX_PIN, \
                         Y_STEP_PIN, Y_DIR_PIN, Y_ENABLE_PIN, Y_MIN_PIN, Y_MAX_PIN, \
                         Z_STEP_PIN, Z_DIR_PIN, Z_ENABLE_PIN, Z_MIN_PIN, Z_MAX_PIN, Z_PROBE_PIN, \
-                        PS_ON_PIN, HEATER_BED_PIN, FAN_PIN, \
+                        PS_ON_PIN, FAN_PIN, \
                         _H0_PINS _H1_PINS _H2_PINS _H3_PINS \
+                        _B0_PINS _B1_PINS _B2_PINS _B3_PINS \
                         _E0_PINS _E1_PINS _E2_PINS _E3_PINS _E4_PINS _E5_PINS \
-                        analogInputToDigitalPin(TEMP_BED_PIN) \
                        }
 
 #endif //__PINS_H

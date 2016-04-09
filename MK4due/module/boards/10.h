@@ -37,12 +37,12 @@
   #define ORIG_TEMP_0_PIN        2
   #define ORIG_TEMP_1_PIN       -1
   #define ORIG_TEMP_2_PIN       -1
-  #define ORIG_TEMP_BED_PIN      1  // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!! (pin 34 bed)
+  #define ORIG_TEMP_BED_0_PIN      1  // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!! (pin 34 bed)
 
-  #define ORIG_HEATER_0_PIN      4
-  #define ORIG_HEATER_1_PIN     -1
-  #define ORIG_HEATER_2_PIN     -1
-  #define ORIG_HEATER_BED_PIN    3  // (bed)
+  #define ORIG_HOTEND_0_PIN      4
+  #define ORIG_HOTEND_1_PIN     -1
+  #define ORIG_HOTEND_2_PIN     -1
+  #define ORIG_BED_0_PIN    3  // (bed)
 
   #define SDPOWER               -1
   #define SDSS                  31  // SCL pin of I2C header || CS Pin for SD Card support

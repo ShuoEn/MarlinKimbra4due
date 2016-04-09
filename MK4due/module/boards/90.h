@@ -70,14 +70,14 @@
 #define ORIG_PS_ON_PIN     -1
 #define KILL_PIN           -1
 
-#define ORIG_HEATER_0_PIN       4
-#define ORIG_HEATER_1_PIN       -1 // 12
-#define ORIG_HEATER_2_PIN       -1 // 13
+#define ORIG_HOTEND_0_PIN       4
+#define ORIG_HOTEND_1_PIN       -1 // 12
+#define ORIG_HOTEND_2_PIN       -1 // 13
 #define ORIG_TEMP_0_PIN          0 //D27   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!!
 #define ORIG_TEMP_1_PIN         -1 // 1
 #define ORIG_TEMP_2_PIN         -1 // 2
-#define ORIG_HEATER_BED_PIN     -1 // 14/15
-#define ORIG_TEMP_BED_PIN       -1 // 1,2 or I2C
+#define ORIG_BED_0_PIN     -1 // 14/15
+#define ORIG_TEMP_BED_0_PIN       -1 // 1,2 or I2C
 /*  Unused (1) (2) (3) 4 5 6 7 8 9 10 11 12 13 (14) (15) (16) 17 (18) (19) (20) (21) (22) (23) 24 (25) (26) (27) 28 (29) (30) (31)  */
 
 

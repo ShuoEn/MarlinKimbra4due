@@ -24,16 +24,16 @@
 #define Z_STOP_PIN 29
 #define ORIG_Z_ENABLE_PIN 34
 
-#define ORIG_HEATER_BED_PIN 4
-#define ORIG_TEMP_BED_PIN 10
+#define ORIG_BED_0_PIN 4
+#define ORIG_TEMP_BED_0_PIN 10
 
-#define ORIG_HEATER_0_PIN  2
+#define ORIG_HOTEND_0_PIN  2
 #define ORIG_TEMP_0_PIN 8
 
-#define ORIG_HEATER_1_PIN 3
+#define ORIG_HOTEND_1_PIN 3
 #define ORIG_TEMP_1_PIN 9
 
-#define ORIG_HEATER_2_PIN -1
+#define ORIG_HOTEND_2_PIN -1
 #define ORIG_TEMP_2_PIN -1
 
 #define ORIG_E0_STEP_PIN         42

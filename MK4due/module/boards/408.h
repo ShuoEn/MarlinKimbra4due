@@ -28,13 +28,13 @@
 #define ORIG_Z_MIN_PIN        18
 #define ORIG_Z_MAX_PIN        19
 
-#define ORIG_HEATER_0_PIN     10
-#define ORIG_HEATER_1_PIN      9
-#define ORIG_HEATER_BED_PIN    8
+#define ORIG_HOTEND_0_PIN     10
+#define ORIG_HOTEND_1_PIN      9
+#define ORIG_BED_0_PIN    8
 
 #define ORIG_TEMP_0_PIN        9  // ANALOG NUMBERING
 #define ORIG_TEMP_1_PIN       10  // ANALOG NUMBERING
-#define ORIG_TEMP_BED_PIN     11  // ANALOG NUMBERING
+#define ORIG_TEMP_BED_0_PIN     11  // ANALOG NUMBERING
 
 #define ORIG_E0_STEP_PIN      26
 #define ORIG_E0_DIR_PIN       28

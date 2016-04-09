@@ -69,10 +69,10 @@
   #define KILL_PIN              -1
 #endif
 
-#define ORIG_HEATER_0_PIN       10   // HOTEND 1
-#define ORIG_HEATER_1_PIN        9   // HOTEND 2
-#define ORIG_HEATER_2_PIN       16   // HOTEND 3
-#define ORIG_HEATER_3_PIN       17   // HOTEND 4
+#define ORIG_HOTEND_0_PIN       10   // HOTEND 1
+#define ORIG_HOTEND_1_PIN        9   // HOTEND 2
+#define ORIG_HOTEND_2_PIN       16   // HOTEND 3
+#define ORIG_HOTEND_3_PIN       17   // HOTEND 4
 
 #define ORIG_TEMP_0_PIN         13   // ANALOG NUMBERING
 #define ORIG_TEMP_1_PIN         15   // ANALOG NUMBERING
@@ -82,9 +82,9 @@
 #define TC1                      4    // ANALOG NUMBERING Thermo couple on Azteeg X3Pro
 #define TC2                      5    // ANALOG NUMBERING Thermo couple on Azteeg X3Pro
 
-#define ORIG_HEATER_BED_PIN      8   // BED
+#define ORIG_BED_0_PIN      8   // BED
 
-#define ORIG_TEMP_BED_PIN       14   // ANALOG NUMBERING
+#define ORIG_TEMP_BED_0_PIN       14   // ANALOG NUMBERING
 
 #if NUM_SERVOS > 0
   #define SERVO0_PIN            47

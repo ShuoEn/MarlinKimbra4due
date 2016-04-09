@@ -41,21 +41,21 @@
   #define KILL_PIN                -1
 
   #if ENABLED(RAMPS_V_1_0) // RAMPS_V_1_0
-    #define ORIG_HEATER_0_PIN     12    // RAMPS 1.0
-    #define ORIG_HEATER_BED_PIN   -1    // RAMPS 1.0
+    #define ORIG_HOTEND_0_PIN     12    // RAMPS 1.0
+    #define ORIG_BED_0_PIN   -1    // RAMPS 1.0
     #define ORIG_FAN_PIN          11    // RAMPS 1.0
   #else // RAMPS_V_1_1 or RAMPS_V_1_2
-    #define ORIG_HEATER_0_PIN     10    // RAMPS 1.1
-    #define ORIG_HEATER_BED_PIN    8    // RAMPS 1.1
+    #define ORIG_HOTEND_0_PIN     10    // RAMPS 1.1
+    #define ORIG_BED_0_PIN    8    // RAMPS 1.1
     #define ORIG_FAN_PIN           9    // RAMPS 1.1
   #endif
 
-  #define ORIG_HEATER_1_PIN       -1
-  #define ORIG_HEATER_2_PIN       -1
+  #define ORIG_HOTEND_1_PIN       -1
+  #define ORIG_HOTEND_2_PIN       -1
   #define ORIG_TEMP_0_PIN          2    // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!!
   #define ORIG_TEMP_1_PIN         -1
   #define ORIG_TEMP_2_PIN         -1
-  #define ORIG_TEMP_BED_PIN        1    // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!!
+  #define ORIG_TEMP_BED_0_PIN        1    // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!!
 
   // SPI for Max6675 Thermocouple
   #if DISABLED(SDSUPPORT)

@@ -50,9 +50,9 @@
   #define ORIG_PS_ON_PIN 12
   #define KILL_PIN -1
 
-  #define ORIG_HEATER_0_PIN 9 // EXTRUDER 1
-  #define ORIG_HEATER_1_PIN 8 // EXTRUDER 2
-  #define ORIG_HEATER_2_PIN -1
+  #define ORIG_HOTEND_0_PIN 9 // EXTRUDER 1
+  #define ORIG_HOTEND_1_PIN 8 // EXTRUDER 2
+  #define ORIG_HOTEND_2_PIN -1
 
   #define SHIFT_CLK 63
   #define SHIFT_LD 42
@@ -73,12 +73,12 @@
 
   #define ORIG_TEMP_2_PIN -1 // ANALOG NUMBERING
 
-  #define ORIG_HEATER_BED_PIN 10 // BED
+  #define ORIG_BED_0_PIN 10 // BED
 
   #if TEMP_SENSOR_BED == -1
-    #define ORIG_TEMP_BED_PIN 8 // ANALOG NUMBERING
+    #define ORIG_TEMP_BED_0_PIN 8 // ANALOG NUMBERING
   #else
-    #define ORIG_TEMP_BED_PIN 14 // ANALOG NUMBERING
+    #define ORIG_TEMP_BED_0_PIN 14 // ANALOG NUMBERING
   #endif
 
   #define ORIG_BEEPER_PIN 64

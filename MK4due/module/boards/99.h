@@ -31,12 +31,12 @@
 #define ORIG_PS_ON_PIN           9
 #define KILL_PIN           -1
 
-#define ORIG_HEATER_0_PIN       13
-#define ORIG_HEATER_1_PIN       -1
-#define ORIG_HEATER_2_PIN       -1
+#define ORIG_HOTEND_0_PIN       13
+#define ORIG_HOTEND_1_PIN       -1
+#define ORIG_HOTEND_2_PIN       -1
 #define ORIG_TEMP_0_PIN          6   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!!
 #define ORIG_TEMP_1_PIN         -1   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!!
 #define ORIG_TEMP_2_PIN         -1   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!!
-#define ORIG_HEATER_BED_PIN      4
-#define ORIG_TEMP_BED_PIN       10
+#define ORIG_BED_0_PIN      4
+#define ORIG_TEMP_BED_0_PIN       10
 

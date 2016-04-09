@@ -38,15 +38,15 @@
 
 
     #define ORIG_TEMP_2_PIN      -1    //changed @ rkoeppl 20110410
-    #define ORIG_HEATER_0_PIN    14    //changed @ rkoeppl 20110410
-    #define ORIG_HEATER_1_PIN    -1
-    #define ORIG_HEATER_2_PIN    -1
+    #define ORIG_HOTEND_0_PIN    14    //changed @ rkoeppl 20110410
+    #define ORIG_HOTEND_1_PIN    -1
+    #define ORIG_HOTEND_2_PIN    -1
     #if MOTHERBOARD == 5
-    #define ORIG_HEATER_BED_PIN  -1    //changed @ rkoeppl 20110410
-    #define ORIG_TEMP_BED_PIN    -1    //changed @ rkoeppl 20110410
+    #define ORIG_BED_0_PIN  -1    //changed @ rkoeppl 20110410
+    #define ORIG_TEMP_BED_0_PIN    -1    //changed @ rkoeppl 20110410
     #else
-    #define ORIG_HEATER_BED_PIN   1    //changed @ rkoeppl 20110410
-    #define ORIG_TEMP_BED_PIN     0    //changed @ rkoeppl 20110410
+    #define ORIG_BED_0_PIN   1    //changed @ rkoeppl 20110410
+    #define ORIG_TEMP_BED_0_PIN     0    //changed @ rkoeppl 20110410
     #endif
     #define SDPOWER              -1
     #define SDSS                 17

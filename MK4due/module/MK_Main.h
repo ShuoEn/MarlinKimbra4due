@@ -18,6 +18,7 @@ void ok_to_send();
 
 bool setTargetedExtruder(int code);
 bool setTargetedHotend(int code);
+bool setTargetedBed(int code);
 
 #if MECH(DELTA)
   float probe_bed(float x, float y);
@@ -106,17 +107,11 @@ extern float volumetric_multiplier[EXTRUDERS];  // reciprocal of cross-sectional
 extern float current_position[NUM_AXIS];
 extern float destination[NUM_AXIS];
 extern float home_offset[3];
-extern float hotend_offset[3][HOTENDS];
 extern float min_pos[3];
 extern float max_pos[3];
 extern float zprobe_zoffset;
 extern uint8_t axis_known_position;
 extern uint8_t axis_was_homed;
-
-#if HEATER_USES_AD595
-  extern float ad595_offset[HOTENDS];
-  extern float ad595_gain[HOTENDS];
-#endif
 
 #if ENABLED(NPR2)
   extern uint8_t old_color; // old color for system NPR2
@@ -210,6 +205,9 @@ extern uint8_t active_extruder;
 extern uint8_t previous_extruder;
 extern uint8_t active_driver;
 
+// Hotend
+extern uint8_t active_hotend;
+
 #if MB(ALLIGATOR)
   extern float motor_current[DRIVER_EXTRUDERS + 3];
 #endif
@@ -219,9 +217,7 @@ extern uint8_t active_driver;
   extern void digipot_i2c_init();
 #endif
 
-#if HAS(TEMP_0) || HAS(TEMP_BED) || ENABLED(HEATER_0_USES_MAX6675)
-  void print_heaterstates();
-#endif
+void print_heaterstates();
 
 #if ENABLED(FIRMWARE_TEST)
   void FirmwareTest();

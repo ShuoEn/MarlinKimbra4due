@@ -47,14 +47,14 @@
   #define ORIG_PS_ON_PIN        10  // Set to -1 if using a manual switch on the PWRSW Connector
   #define SLEEP_WAKE_PIN        26  // This feature still needs work
 
-  #define ORIG_HEATER_0_PIN     45  // 12V PWM1
-  #define ORIG_HEATER_1_PIN     46  // 12V PWM2
-  #define ORIG_HEATER_2_PIN     17  // 12V PWM3
-  #define ORIG_HEATER_BED_PIN   44  // DOUBLE 12V PWM
+  #define ORIG_HOTEND_0_PIN     45  // 12V PWM1
+  #define ORIG_HOTEND_1_PIN     46  // 12V PWM2
+  #define ORIG_HOTEND_2_PIN     17  // 12V PWM3
+  #define ORIG_BED_0_PIN   44  // DOUBLE 12V PWM
   #define ORIG_TEMP_0_PIN       3   // ANALOG NUMBERING
   #define ORIG_TEMP_1_PIN       2   // ANALOG NUMBERING
   #define ORIG_TEMP_2_PIN       1   // ANALOG NUMBERING
-  #define ORIG_TEMP_BED_PIN     0   // ANALOG NUMBERING
+  #define ORIG_TEMP_BED_0_PIN     0   // ANALOG NUMBERING
 
   #define ORIG_BEEPER_PIN       36
 

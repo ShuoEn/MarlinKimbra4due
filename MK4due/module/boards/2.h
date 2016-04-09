@@ -58,18 +58,18 @@
   #define ORIG_PS_ON_PIN -1
   #define KILL_PIN -1
 
-  #define ORIG_HEATER_0_PIN 19 // EXTRUDER 1
-  #define ORIG_HEATER_1_PIN 23 // EXTRUDER 2
+  #define ORIG_HOTEND_0_PIN 19 // EXTRUDER 1
+  #define ORIG_HOTEND_1_PIN 23 // EXTRUDER 2
   //HeatedBad
-  #define ORIG_HEATER_BED_PIN 22
+  #define ORIG_BED_0_PIN 22
   //Cheaptronic v1.0 hasent EXTRUDER 3
-  #define ORIG_HEATER_2_PIN -1
+  #define ORIG_HOTEND_2_PIN -1
 
   //Temperature sensors
   #define ORIG_TEMP_0_PIN 15
   #define ORIG_TEMP_1_PIN 14
   #define ORIG_TEMP_2_PIN -1
-  #define ORIG_TEMP_BED_PIN 13
+  #define ORIG_TEMP_BED_0_PIN 13
 
   //Cheaptronic v1.0 dont support LCD
   #define LCD_PINS_RS -1

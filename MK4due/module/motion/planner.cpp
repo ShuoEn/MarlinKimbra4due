@@ -363,7 +363,7 @@ void plan_init() {
     static float oldt = 0;
 
     if (!autotemp_enabled) return;
-    if (degTargetHotend0() + 2 < autotemp_min) return; // probably temperature set to zero.
+    if (Hotends[0].targetTemperatureC + 2 < autotemp_min) return; // probably temperature set to zero.
 
     float high = 0.0;
     uint8_t block_index = block_buffer_tail;
@@ -384,7 +384,7 @@ void plan_init() {
       t += (AUTOTEMP_OLDWEIGHT) * oldt;
     }
     oldt = t;
-    setTargetHotend0(t);
+    Hotends[0].targetTemperatureC = t;
   }
 #endif //AUTOTEMP
 
@@ -463,11 +463,11 @@ void check_axes_activity() {
   #endif
 
   #if ENABLED(BARICUDA)
-    #if HAS(HEATER_1)
-      analogWrite(HEATER_1_PIN, tail_valve_pressure);
+    #if HAS(HOTEND_1)
+      analogWrite(HOTEND_1_PIN, tail_valve_pressure);
     #endif
-    #if HAS(HEATER_2)
-      analogWrite(HEATER_2_PIN, tail_e_to_p_pressure);
+    #if HAS(HOTEND_2)
+      analogWrite(HOTEND_2_PIN, tail_e_to_p_pressure);
     #endif
   #endif
 
@@ -552,7 +552,7 @@ float junction_deviation = 0.1;
         if (extruder != 1)
       #endif
         {
-          if (degHotend(extruder) < extrude_min_temp && !(debugLevel & DEBUG_DRYRUN)) {
+          if (Hotends[active_hotend].currentTemperatureC < extrude_min_temp && !(debugLevel & DEBUG_DRYRUN)) {
             position[E_AXIS] = target[E_AXIS]; //behave as if the move really took place, but ignore E part
             de = 0; // no difference
             ECHO_LM(ER, SERIAL_ERR_COLD_EXTRUDE_STOP);

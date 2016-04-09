@@ -53,9 +53,9 @@
 #define FAN_PIN             9  
 #define PS_ON_PIN          12 
 
-#define HEATER_0_PIN       10   // EXTRUDER 1 
-#define HEATER_1_PIN       -1   // EXTRUDER 2  ( Not supported on MKS Mini ) 
-#define HEATER_2_PIN       -1   // EXTRUDER 3  ( Not supported on MKS Mini ) 
+#define HOTEND_0_PIN       10   // EXTRUDER 1 
+#define HOTEND_1_PIN       -1   // EXTRUDER 2  ( Not supported on MKS Mini ) 
+#define HOTEND_2_PIN       -1   // EXTRUDER 3  ( Not supported on MKS Mini ) 
 
 #define TEMP_0_PIN         13   // ANALOG NUMBERING
 #define TEMP_1_PIN         -1   // ANALOG NUMBERING

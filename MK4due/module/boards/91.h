@@ -78,14 +78,14 @@
 #define ORIG_PS_ON_PIN     -1
 #define KILL_PIN           -1
 
-#define ORIG_HEATER_0_PIN        3 /*DONE PWM on RIGHT connector */
-#define ORIG_HEATER_1_PIN       -1
-#define ORIG_HEATER_2_PIN       -1
+#define ORIG_HOTEND_0_PIN        3 /*DONE PWM on RIGHT connector */
+#define ORIG_HOTEND_1_PIN       -1
+#define ORIG_HOTEND_2_PIN       -1
 #define ORIG_TEMP_0_PIN          0 // ANALOG INPUT NUMBERING
 #define ORIG_TEMP_1_PIN          1 // ANALOG
 #define ORIG_TEMP_2_PIN         -1 // 2
-#define ORIG_HEATER_BED_PIN      4
-#define ORIG_TEMP_BED_PIN        2 // 1,2 or I2C
+#define ORIG_BED_0_PIN      4
+#define ORIG_TEMP_BED_0_PIN        2 // 1,2 or I2C
 
 #define I2C_SCL       16
 #define I2C_SDA       17

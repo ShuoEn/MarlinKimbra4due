@@ -40,14 +40,14 @@
   #define ORIG_E0_DIR_PIN       17
   #define ORIG_E0_ENABLE_PIN    3
 
-  #define ORIG_HEATER_0_PIN     16
+  #define ORIG_HOTEND_0_PIN     16
   #define ORIG_TEMP_0_PIN       0
 
   #define ORIG_FAN_PIN -1
 
   //bed pins
-  #define ORIG_HEATER_BED_PIN   -1
-  #define ORIG_TEMP_BED_PIN     -1
+  #define ORIG_BED_0_PIN   -1
+  #define ORIG_TEMP_BED_0_PIN     -1
 
   #define SDSS                  -1
   #define SDPOWER               -1
@@ -60,4 +60,4 @@
   #define KILL_PIN              -1
   #define ORIG_TEMP_1_PIN       -1
   #define ORIG_TEMP_2_PIN       -1
-  #define ORIG_HEATER_2_PIN     -1
+  #define ORIG_HOTEND_2_PIN     -1

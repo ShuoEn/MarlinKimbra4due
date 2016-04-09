@@ -35,19 +35,19 @@
 #define Z_MS1_PIN 68
 #define Z_MS2_PIN 67
 
-#define ORIG_HEATER_BED_PIN 3
-#define ORIG_TEMP_BED_PIN 2
+#define ORIG_BED_0_PIN 3
+#define ORIG_TEMP_BED_0_PIN 2
 
-#define ORIG_HEATER_0_PIN  9
+#define ORIG_HOTEND_0_PIN  9
 #define ORIG_TEMP_0_PIN 0
 
-#define ORIG_HEATER_1_PIN 7
+#define ORIG_HOTEND_1_PIN 7
 #define ORIG_TEMP_1_PIN 1
 
 #if ENABLED(BARICUDA)
-#define ORIG_HEATER_2_PIN 6
+#define ORIG_HOTEND_2_PIN 6
 #else
-#define ORIG_HEATER_2_PIN -1
+#define ORIG_HOTEND_2_PIN -1
 #endif
 #define ORIG_TEMP_2_PIN -1
 

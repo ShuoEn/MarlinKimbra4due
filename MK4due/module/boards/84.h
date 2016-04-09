@@ -75,10 +75,10 @@ DaveX plan for Teensylu/printrboard-type pinouts (ref teensylu & sprinter) for a
 #define ORIG_E0_DIR_PIN         35 //  7
 #define ORIG_E0_ENABLE_PIN      26 // Shared w/x
 
-#define ORIG_HEATER_0_PIN       15 //  21  // Extruder
-#define ORIG_HEATER_1_PIN       -1
-#define ORIG_HEATER_2_PIN       -1
-#define ORIG_HEATER_BED_PIN     14 // 20  // Bed
+#define ORIG_HOTEND_0_PIN       15 //  21  // Extruder
+#define ORIG_HOTEND_1_PIN       -1
+#define ORIG_HOTEND_2_PIN       -1
+#define ORIG_BED_0_PIN     14 // 20  // Bed
 #define ORIG_FAN_PIN            16 // 22  // Fan
 
 #define X_STOP_PIN          2
@@ -86,7 +86,7 @@ DaveX plan for Teensylu/printrboard-type pinouts (ref teensylu & sprinter) for a
 #define Z_STOP_PIN          4
 
 #define ORIG_TEMP_0_PIN          7 // Extruder / Analog pin numbering
-#define ORIG_TEMP_BED_PIN        6 // Bed / Analog pin numbering
+#define ORIG_TEMP_BED_0_PIN        6 // Bed / Analog pin numbering
 #define ORIG_TEMP_1_PIN         -1
 #define ORIG_TEMP_2_PIN         -1
 
