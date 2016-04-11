@@ -43,7 +43,7 @@
  * Temperature sensor settings (4.7kohm PULLUP):                                                     *
  *  -2 is thermocouple with MAX6675 (only for sensor 0)                                              *
  *  -1 is thermocouple with AD595 or AD597                                                           *
- *   0 is not used                                                                                   *
+ *   0 is not used read 25°C                                                                         *
  *   1 is 100k thermistor - best choice for EPCOS 100k (4.7k pullup)                                 *
  *   2 is 200k thermistor - ATC Semitec 204GT-2 (4.7k pullup)                                        *
  *   3 is Mendel-parts thermistor (4.7k pullup)                                                      *
