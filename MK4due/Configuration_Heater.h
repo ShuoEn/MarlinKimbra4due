@@ -1,7 +1,7 @@
 #ifndef CONFIGURATION_HEATER_H
   #define CONFIGURATION_HEATER_H
 
-/*
+/**
  * This configuration file contains all function for Heater.
  * You can configure a maximum of 6 heaters.
  * These can be Heater Hotend, Heater Bed and Heater Chamber.

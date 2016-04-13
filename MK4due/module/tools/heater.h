@@ -25,7 +25,7 @@
 #ifndef HEATER_H
   #define HEATER_H
 
-  static void* heater_ttbl_map[13] = {
+  static void* heater_ttbl_map[14] = { 0,
     (void*)temptable_1, (void*)temptable_2, (void*)temptable_3, (void*)temptable_4,
     (void*)temptable_5, (void*)temptable_6, (void*)temptable_7, (void*)temptable_8,
     (void*)temptable_9, (void*)temptable_10
@@ -46,7 +46,7 @@
     #endif
   };
 
-  static uint8_t heater_ttbllen_map[13] PROGMEM = {
+  static uint8_t heater_ttbllen_map[14] PROGMEM = { 0,
     COUNT(temptable_1), COUNT(temptable_2), COUNT(temptable_3), COUNT(temptable_4),
     COUNT(temptable_5), COUNT(temptable_6), COUNT(temptable_7), COUNT(temptable_8),
     COUNT(temptable_9), COUNT(temptable_10),
@@ -101,7 +101,6 @@
           case 11:
           case 12:
           {
-            type--;
             if (heater_ttbl_map[type] != NULL) {
               float celsius = 0;
               uint8_t i;
@@ -120,7 +119,7 @@
               // Overflow: Set to last value in the table
               if (i == heater_ttbllen_map[type]) celsius = PGM_RD_W((*tt)[i - 1][1]);
 
-              return TEMP_INT_TO_FLOAT(celsius);
+              return celsius;
             }
           }
           break;
@@ -140,6 +139,8 @@
   };
 
   extern Heater Heaters[];
+  //uint8_t Hotends(HEATER_HOTENDS);
+  //uint8_t Beds(HEATER_BEDS);
 
   // public functions
   void Heated_init();   // initialize the heating

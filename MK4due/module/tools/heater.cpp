@@ -47,7 +47,7 @@
   #endif
   #if NUM_HEATER > 1
     {
-      0, TEMP_SENSOR_1, TEMP_1_PIN, HEATER_1_PIN, HEATER_1_AUTO_FAN_PIN,
+      1, TEMP_SENSOR_1, TEMP_1_PIN, HEATER_1_PIN, HEATER_1_AUTO_FAN_PIN,
       0, 0, HEATER_1_MINTEMP, HEATER_1_MAXTEMP, 0, 0,   // Temperature
       HEATER_1_PIDTEMP, 0, 0, 0, 100, HEATER_1_PID_MAX, // PID
       {0}, TEMP_SENSOR_AD595_OFFSET, TEMP_SENSOR_AD595_GAIN,
@@ -56,7 +56,7 @@
   #endif
   #if NUM_HEATER > 2
     {
-      0, TEMP_SENSOR_2, TEMP_2_PIN, HEATER_2_PIN, HEATER_2_AUTO_FAN_PIN,
+      2, TEMP_SENSOR_2, TEMP_2_PIN, HEATER_2_PIN, HEATER_2_AUTO_FAN_PIN,
       0, 0, HEATER_2_MINTEMP, HEATER_2_MAXTEMP, 0, 0,   // Temperature
       HEATER_2_PIDTEMP, 0, 0, 0, 100, HEATER_2_PID_MAX, // PID
       {0}, TEMP_SENSOR_AD595_OFFSET, TEMP_SENSOR_AD595_GAIN,
@@ -65,7 +65,7 @@
   #endif
   #if NUM_HEATER > 3
     {
-      0, TEMP_SENSOR_3, TEMP_3_PIN, HEATER_3_PIN, HEATER_3_AUTO_FAN_PIN,
+      3, TEMP_SENSOR_3, TEMP_3_PIN, HEATER_3_PIN, HEATER_3_AUTO_FAN_PIN,
       0, 0, HEATER_3_MINTEMP, HEATER_3_MAXTEMP, 0, 0,   // Temperature
       HEATER_3_PIDTEMP, 0, 0, 0, 100, HEATER_3_PID_MAX, // PID
       {0}, TEMP_SENSOR_AD595_OFFSET, TEMP_SENSOR_AD595_GAIN,
@@ -74,7 +74,7 @@
   #endif
   #if NUM_HEATER > 4
     {
-      0, TEMP_SENSOR_4, TEMP_4_PIN, HEATER_4_PIN, HEATER_4_AUTO_FAN_PIN,
+      4, TEMP_SENSOR_4, TEMP_4_PIN, HEATER_4_PIN, HEATER_4_AUTO_FAN_PIN,
       0, 0, HEATER_4_MINTEMP, HEATER_4_MAXTEMP, 0, 0,   // Temperature
       HEATER_4_PIDTEMP, 0, 0, 0, 100, HEATER_4_PID_MAX, // PID
       {0}, TEMP_SENSOR_AD595_OFFSET, TEMP_SENSOR_AD595_GAIN,
@@ -83,7 +83,7 @@
   #endif
   #if NUM_HEATER > 5
     {
-      0, TEMP_SENSOR_5, TEMP_5_PIN, HEATER_5_PIN, HEATER_5_AUTO_FAN_PIN,
+      5, TEMP_SENSOR_5, TEMP_5_PIN, HEATER_5_PIN, HEATER_5_AUTO_FAN_PIN,
       0, 0, HEATER_5_MINTEMP, HEATER_5_MAXTEMP, 0, 0,   // Temperature
       HEATER_5_PIDTEMP, 0, 0, 0, 100, HEATER_5_PID_MAX, // PID
       {0}, TEMP_SENSOR_AD595_OFFSET, TEMP_SENSOR_AD595_GAIN,
@@ -359,7 +359,6 @@ float unscalePID_i(float i) { return i / PID_dT; }
 float scalePID_d(float d)   { return d / PID_dT; }
 float unscalePID_d(float d) { return d * PID_dT; }
   
-
 #if HAS(AUTO_FAN)
   void setHeaterAutoFanState(int pin, bool state) {
     unsigned char newFanSpeed = (state != 0) ? HEATER_AUTO_FAN_SPEED : HEATER_AUTO_FAN_MIN_SPEED;
@@ -544,7 +543,7 @@ void manage_heater() {
     float pid_output = get_pid_output(heater);
 
     // Check if temperature is within the correct range
-    Heaters[heater].soft_pwm = Heaters[heater].currentTemperatureC > Heaters[heater].minttempC && Heaters[heater].currentTemperatureC < Heaters[heater].maxttempC ? (int)pid_output >> 1 : 0;
+    Heaters[heater].soft_pwm = (Heaters[heater].currentTemperatureC > Heaters[heater].minttempC && Heaters[heater].currentTemperatureC < Heaters[heater].maxttempC) ? (int)pid_output >> 1 : 0;
 
     // Check if the temperature is failing to increase
     #if ENABLED(THERMAL_PROTECTION_HEATERS)
@@ -715,6 +714,31 @@ void Heated_init() {
     // populate with the first value
     temp_iState_min[heater] = 0.0;
     temp_iState_max[heater] = PID_INTEGRAL_DRIVE_MAX / Heaters[heater].Ki;
+
+    ECHO_EMV("NUM HEATER = ", NUM_HEATER);
+    ECHO_EMV("id = ", Heaters[heater].id);
+    ECHO_EMV("sensorType = ", Heaters[heater].sensorType);
+    ECHO_EMV("sensor_pin = ", Heaters[heater].sensor_pin);
+    ECHO_EMV("heater_pin = ", Heaters[heater].heater_pin);
+    ECHO_EMV("fan_pin = ", Heaters[heater].fan_pin);
+    ECHO_EMV("currentTemperature_raw = ", Heaters[heater].currentTemperature_raw);
+    ECHO_EMV("targetTemperature_raw = ", Heaters[heater].targetTemperature_raw);
+    ECHO_EMV("minttempC = ", Heaters[heater].minttempC);
+    ECHO_EMV("maxttempC = ", Heaters[heater].maxttempC);
+    ECHO_EMV("pid_max = ", Heaters[heater].pid_max);
+    ECHO_EMV("currentTemperatureC = ", Heaters[heater].currentTemperatureC);
+    ECHO_EMV("targetTemperatureC = ", Heaters[heater].targetTemperatureC);
+    ECHO_EMV("use_pid = ", Heaters[heater].use_pid);
+    ECHO_EMV("Kp = ", Heaters[heater].Kp);
+    ECHO_EMV("Ki = ", Heaters[heater].Ki);
+    ECHO_EMV("Kd = ", Heaters[heater].Kd);
+    ECHO_EMV("Kc = ", Heaters[heater].Kc);
+    ECHO_EMV("ad595_offset = ", Heaters[heater].ad595_offset);
+    ECHO_EMV("ad595_gain = ", Heaters[heater].ad595_gain);
+    ECHO_EMV("has_fan = ", Heaters[heater].has_fan);
+    ECHO_EMV("auto_fan_temperature = ", Heaters[heater].auto_fan_temperature);
+    ECHO_EMV("soft_pwm = ", Heaters[heater].soft_pwm);
+
     SET_OUTPUT(Heaters[heater].heater_pin);
   }
 
@@ -876,7 +900,6 @@ enum TempState {
   StartupDelay // Startup, delay initial temp reading a tiny bit so the hardware can settle
 };
 
-
 void Update_heater() {
   //these variables are only accesible from the ISR, but static, so they don't lose their value
   static unsigned char temp_count = 0;
@@ -894,11 +917,8 @@ void Update_heater() {
   // Static members for each heater
   #if ENABLED(SLOW_PWM_HEATERS)
     static unsigned char slow_pwm_count = 0;
-    static unsigned char soft_pwm[NUM_HEATER];
     static unsigned char state_heater[NUM_HEATER];
     static unsigned char state_timer_heater[NUM_HEATER];
-  #else
-    static unsigned char soft_pwm[NUM_HEATER];
   #endif
 
   #if HAS(FILAMENT_SENSOR)
@@ -907,7 +927,7 @@ void Update_heater() {
 
   // Initialize some variables only at start!
   if (first_start) {
-	  for (uint8_t heater = 0; heater < HOTENDS; heater++) {
+	  for (uint8_t heater = 0; heater < NUM_HEATER; heater++) {
       max_temp[heater] = 0;
       min_temp[heater] = 123000;
 		  for (int j = 0; j < MEDIAN_COUNT; j++) raw_median_temp[heater][j] = 3600 * OVERSAMPLENR;
@@ -924,8 +944,12 @@ void Update_heater() {
      */
     if (pwm_count == 0) {
       for (uint8_t heater = 0; heater < NUM_HEATER; heater++) {
-        soft_pwm[heater] = Heaters[heater].soft_pwm;
-        WRITE_HEATER(Heaters[heater].heater_pin, soft_pwm[heater] > 0 ? 1 : 0);
+        ECHO_EMV("soft_pwm = ", Heaters[heater].soft_pwm);
+        if (Heaters[heater].soft_pwm > 0)
+          WRITE_HEATER(Heaters[heater].heater_pin, 1);
+        else
+          WRITE_HEATER(Heaters[heater].heater_pin, 0);
+        //WRITE_HEATER(Heaters[heater].heater_pin, Heaters[heater].soft_pwm > 0 ? 1 : 0);
       }
 
       #if ENABLED(FAN_SOFT_PWM)
@@ -946,7 +970,7 @@ void Update_heater() {
     }
 
     for (uint8_t heater = 0; heater < NUM_HEATER; heater++)
-      if (soft_pwm[heater] < pwm_count) WRITE_HEATER(Heaters[heater].heater_pin, 0);
+      if (Heaters[heater].soft_pwm < pwm_count) WRITE_HEATER(Heaters[heater].heater_pin, 0);
 
     #if ENABLED(FAN_SOFT_PWM)
       if (soft_pwm_fan < pwm_count) WRITE_FAN(0);
@@ -979,8 +1003,7 @@ void Update_heater() {
 
     if (slow_pwm_count == 0) {
       for (uint8_t heater = 0; heater < NUM_HEATER; heater++) {
-        soft_pwm[heater] = Heaters[heater].soft_pwm;
-        if (soft_pwm[heater] > 0) {
+        if (Heaters[heater].soft_pwm > 0) {
           if (state_timer_heater[heater] == 0) {
             if (state_heater[heater] == 0) state_timer_heater[heater] = MIN_STATE_TIME;
             state_heater[heater] = 1;
@@ -998,7 +1021,7 @@ void Update_heater() {
     } // slow_pwm_count == 0
 
     for (uint8_t heater = 0; heater < NUM_HEATER; heater++) {
-      if (soft_pwm[heater] < slow_pwm_count) {
+      if (Heaters[heater].soft_pwm < slow_pwm_count) {
         if (state_timer_heater[heater] == 0) {
           if (state_heater[heater] == 1) state_timer_heater[heater] = MIN_STATE_TIME;
           state_heater[heater] = 0;
@@ -1055,7 +1078,8 @@ void Update_heater() {
   #define READ_TEMP(temp_id) temp_read = getAdcFreerun(pinToAdcChannel(Heaters[temp_id].sensor_pin)); \
     raw_temp_value[temp_id] += temp_read; \
     max_temp[temp_id] = max(max_temp[temp_id], temp_read); \
-    min_temp[temp_id] = min(min_temp[temp_id], temp_read)
+    min_temp[temp_id] = min(min_temp[temp_id], temp_read);
+    //ECHO_EMV("raw = ", temp_read);
 
   // Prepare or measure a sensor, each one every 14th frame
   switch(temp_state) {
