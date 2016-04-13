@@ -176,11 +176,8 @@ void Config_StoreSettings() {
   EEPROM_WRITE_VAR(i, gumPreheatHPBTemp);
   EEPROM_WRITE_VAR(i, gumPreheatFanSpeed);
 
-  for(uint8_t h = 0; h < HOTENDS; h++)
-    EEPROM_WRITE_VAR(i, Hotends[h]);
-
-  for(uint8_t h = 0; h < BEDS; h++)
-    EEPROM_WRITE_VAR(i, Beds[h]);
+  for(uint8_t h = 0; h < NUM_HEATER; h++)
+    EEPROM_WRITE_VAR(i, Heaters[h]);
 
   #if DISABLED(PID_ADD_EXTRUSION_RATE)
     int lpq_len = 20;
@@ -308,11 +305,8 @@ void Config_RetrieveSettings() {
     EEPROM_READ_VAR(i, gumPreheatHPBTemp);
     EEPROM_READ_VAR(i, gumPreheatFanSpeed);
 
-    for(uint8_t h = 0; h < HOTENDS; h++)
-      EEPROM_READ_VAR(i, Hotends[h]);
-
-    for(uint8_t h = 0; h < BEDS; h++)
-      EEPROM_READ_VAR(i, Beds[h]);
+    for(uint8_t h = 0; h < NUM_HEATER; h++)
+      EEPROM_READ_VAR(i, Heaters[h]);
 
     #if DISABLED(PID_ADD_EXTRUSION_RATE)
       int lpq_len;
@@ -439,19 +433,19 @@ void Config_ResetDefault() {
         max_e_jerk[i] = tmp5[max_i - 1];
       max_i = sizeof(tmp10) / sizeof(*tmp10);
       if(i < max_i)
-        Hotends[i].hotend_offset[X_AXIS] = tmp10[i];
+        Heaters[i].hotend_offset[X_AXIS] = tmp10[i];
       else
-        Hotends[i].hotend_offset[X_AXIS] = 0;
+        Heaters[i].hotend_offset[X_AXIS] = 0;
       max_i = sizeof(tmp11) / sizeof(*tmp11);
       if(i < max_i)
-        Hotends[i].hotend_offset[Y_AXIS] = tmp11[i];
+        Heaters[i].hotend_offset[Y_AXIS] = tmp11[i];
       else
-        Hotends[i].hotend_offset[Y_AXIS] = 0;
+        Heaters[i].hotend_offset[Y_AXIS] = 0;
       max_i = sizeof(tmp12) / sizeof(*tmp12);
       if(i < max_i)
-        Hotends[i].hotend_offset[Z_AXIS] = tmp12[i];
+        Heaters[i].hotend_offset[Z_AXIS] = tmp12[i];
       else
-        Hotends[i].hotend_offset[Z_AXIS] = 0;
+        Heaters[i].hotend_offset[Z_AXIS] = 0;
     }
     #if MB(ALLIGATOR)
       max_i = sizeof(tmp13) / sizeof(*tmp13);
@@ -525,28 +519,17 @@ void Config_ResetDefault() {
     lcd_contrast = DEFAULT_LCD_CONTRAST;
   #endif
 
-  #if ENABLED(PIDTEMP)
-    for (int8_t h = 0; h < HOTENDS; h++) {
-      Hotends[h].Kp = tmp6[h];
-      Hotends[h].Ki = scalePID_i(tmp7[h]);
-      Hotends[h].Kd = scalePID_d(tmp8[h]);
-      Hotends[h].Kc = tmp9[h];
-    }
-    #if ENABLED(PID_ADD_EXTRUSION_RATE)
-      lpq_len = 20; // default last-position-queue size
-    #endif
-    // call updatePID (similar to when we have processed M301)
-    updatePID();
-  #endif // PIDTEMP
-
-  #if ENABLED(PIDTEMPBED)
-    for (int8_t h = 0; h < BEDS; h++) {
-      Beds[h].Kp = DEFAULT_bedKp;
-      Beds[h].Ki = scalePID_i(DEFAULT_bedKi);
-      Beds[h].Kd = scalePID_d(DEFAULT_bedKd);
-      Beds[h].Kc = 100;
-    }
+  for (uint8_t h = 0; h < NUM_HEATER; h++) {
+    Heaters[h].Kp = tmp6[h];
+    Heaters[h].Ki = scalePID_i(tmp7[h]);
+    Heaters[h].Kd = scalePID_d(tmp8[h]);
+    Heaters[h].Kc = tmp9[h];
+  }
+  #if ENABLED(PID_ADD_EXTRUSION_RATE)
+    lpq_len = 20; // default last-position-queue size
   #endif
+  // call updatePID (similar to when we have processed M301)
+  updatePID();
 
   #if ENABLED(FWRETRACT)
     autoretract_enabled = false;
@@ -671,21 +654,21 @@ void Config_ResetDefault() {
     if (!forReplay) {
       ECHO_LM(CFG, "Hotend offset (mm):");
     }
-    for (int8_t h = 0; h < HOTENDS; h++) {
+    for (int8_t h = 0; h < NUM_HEATER; h++) {
       ECHO_SMV(CFG, "  M218 T", h);
-      ECHO_MV(" X", Hotends[h].hotend_offset[X_AXIS]);
-      ECHO_MV(" Y", Hotends[h].hotend_offset[Y_AXIS]);
-      ECHO_EMV(" Z", Hotends[h].hotend_offset[Z_AXIS]);
+      ECHO_MV(" X", Heaters[h].hotend_offset[X_AXIS]);
+      ECHO_MV(" Y", Heaters[h].hotend_offset[Y_AXIS]);
+      ECHO_EMV(" Z", Heaters[h].hotend_offset[Z_AXIS]);
     }
 
     #if HEATER_USES_AD595
       if (!forReplay) {
         ECHO_LM(CFG, "AD595 Offset and Gain:");
       }
-      for (int8_t h = 0; h < HOTENDS; h++) {
+      for (int8_t h = 0; h < NUM_HEATER; h++) {
         ECHO_SMV(CFG, "  M595 T", h);
-        ECHO_MV(" O", Hotends[h].ad595_offset);
-        ECHO_EMV(", S", Hotends[h].ad595_gain);
+        ECHO_MV(" O", Heaters[h].ad595_offset);
+        ECHO_EMV(", S", Heaters[h].ad595_gain);
       }
     #endif // HEATER_USES_AD595
 
@@ -750,30 +733,22 @@ void Config_ResetDefault() {
       ECHO_EM(" (Material GUM)");
     #endif // ULTIPANEL
 
-    #if ENABLED(PIDTEMP) || ENABLED(PIDTEMPBED)
-      if (!forReplay) {
-        ECHO_LM(CFG, "PID settings:");
-      }
-      #if ENABLED(PIDTEMP)
-        for (uint8_t h = 0; h < HOTENDS; h++) {
-          ECHO_SMV(CFG, "  M301 H", h);
-          ECHO_MV(" P", Hotends[h].Kp);
-          ECHO_MV(" I", unscalePID_i(Hotends[h].Ki));
-          ECHO_MV(" D", unscalePID_d(Hotends[h].Kd));
-          #if ENABLED(PID_ADD_EXTRUSION_RATE)
-            ECHO_MV(" C", Hotends[h].Kc);
-          #endif
-          ECHO_E;
-        }
-        #if ENABLED(PID_ADD_EXTRUSION_RATE)
-          ECHO_SMV(CFG, "  M301 L", lpq_len);
-        #endif
+    if (!forReplay) {
+      ECHO_LM(CFG, "PID settings:");
+    }
+
+    for (uint8_t h = 0; h < NUM_HEATER; h++) {
+      ECHO_SMV(CFG, "  M301 H", h);
+      ECHO_MV(" P", Heaters[h].Kp);
+      ECHO_MV(" I", unscalePID_i(Heaters[h].Ki));
+      ECHO_MV(" D", unscalePID_d(Heaters[h].Kd));
+      #if ENABLED(PID_ADD_EXTRUSION_RATE)
+        ECHO_MV(" C", Heaters[h].Kc);
       #endif
-      #if ENABLED(PIDTEMPBED)
-        ECHO_SMV(CFG, "  M304 P", bedKp); // for compatibility with hosts, only echos values for E0
-        ECHO_MV(" I", unscalePID_i(bedKi));
-        ECHO_EMV(" D", unscalePID_d(bedKd));
-      #endif
+      ECHO_E;
+    }
+    #if ENABLED(PID_ADD_EXTRUSION_RATE)
+      ECHO_SMV(CFG, "  M301 L", lpq_len);
     #endif
 
     #if ENABLED(FWRETRACT)

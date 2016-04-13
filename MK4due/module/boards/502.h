@@ -79,7 +79,7 @@
 #define ORIG_HOTEND_2_PIN      9 // PC21 on piggy
 #define ORIG_HOTEND_3_PIN     97 // PC20 on piggy
 
-#define ORIG_TEMP_BED_0_PIN      0 // PA16
+#define ORIG_TEMP_BED_0_PIN    0 // PA16
 #define ORIG_TEMP_0_PIN        1 // PA24, analog pin
 #define ORIG_TEMP_1_PIN        2 // PA23 analog pin on piggy
 #define ORIG_TEMP_2_PIN        3 // PA22, analog pin on piggy

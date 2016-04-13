@@ -57,28 +57,13 @@
   #if DISABLED(TEMP_SENSOR_3)
     #error DEPENDENCY ERROR: Missing setting TEMP_SENSOR_3
   #endif
-  #if DISABLED(TEMP_SENSOR_BED_0)
-    #error DEPENDENCY ERROR: Missing setting TEMP_SENSOR_BED_0
+  #if DISABLED(TEMP_SENSOR_4)
+    #error DEPENDENCY ERROR: Missing setting TEMP_SENSOR_4
   #endif
-  #if DISABLED(TEMP_SENSOR_BED_1)
-    #error DEPENDENCY ERROR: Missing setting TEMP_SENSOR_BED_1
+  #if DISABLED(TEMP_SENSOR_5)
+    #error DEPENDENCY ERROR: Missing setting TEMP_SENSOR_5
   #endif
-  #if DISABLED(TEMP_SENSOR_BED_2)
-    #error DEPENDENCY ERROR: Missing setting TEMP_SENSOR_BED_2
-  #endif
-  #if DISABLED(TEMP_SENSOR_BED_3)
-    #error DEPENDENCY ERROR: Missing setting TEMP_SENSOR_BED_3
-  #endif
-  #if (THERMISTORHEATER_0 == 998) || (THERMISTORHEATER_1 == 998) || (THERMISTORHEATER_2 == 998) || (THERMISTORHEATER_3 == 998) || (THERMISTORBED == 998) //User EXIST table
-    #if DISABLED(DUMMY_THERMISTOR_998_VALUE)
-      #define DUMMY_THERMISTOR_998_VALUE 25
-    #endif
-  #endif
-  #if (THERMISTORHEATER_0 == 999) || (THERMISTORHEATER_1 == 999) || (THERMISTORHEATER_2 == 999) || (THERMISTORHEATER_3 == 999) || (THERMISTORBED == 999) //User EXIST table
-    #if DISABLED(DUMMY_THERMISTOR_999_VALUE)
-      #define DUMMY_THERMISTOR_999_VALUE 25
-    #endif
-  #endif
+ 
 
   // Temperature
   /**
@@ -93,67 +78,51 @@
     #endif
   #endif
   #if TEMP_SENSOR_0 != 0
-    #if DISABLED(HOTEND_0_MAXTEMP)
-      #error DEPENDENCY ERROR: Missing setting HOTEND_0_MAXTEMP
+    #if DISABLED(HEATER_0_MAXTEMP)
+      #error DEPENDENCY ERROR: Missing setting HEATER_0_MAXTEMP
     #endif
-    #if DISABLED(HOTEND_0_MINTEMP)
-      #error DEPENDENCY ERROR: Missing setting HOTEND_0_MINTEMP
+    #if DISABLED(HEATER_0_MINTEMP)
+      #error DEPENDENCY ERROR: Missing setting HEATER_0_MINTEMP
     #endif
   #endif
   #if TEMP_SENSOR_1 != 0
-    #if DISABLED(HOTEND_1_MAXTEMP)
-      #error DEPENDENCY ERROR: Missing setting HOTEND_1_MAXTEMP
+    #if DISABLED(HEATER_1_MAXTEMP)
+      #error DEPENDENCY ERROR: Missing setting HEATER_1_MAXTEMP
     #endif
-    #if DISABLED(HOTEND_1_MINTEMP)
-      #error DEPENDENCY ERROR: Missing setting HOTEND_1_MINTEMP
+    #if DISABLED(HEATER_1_MINTEMP)
+      #error DEPENDENCY ERROR: Missing setting HEATER_1_MINTEMP
     #endif
   #endif
   #if TEMP_SENSOR_2 != 0
-    #if DISABLED(HOTEND_2_MAXTEMP)
-      #error DEPENDENCY ERROR: Missing setting HOTEND_2_MAXTEMP
+    #if DISABLED(HEATER_2_MAXTEMP)
+      #error DEPENDENCY ERROR: Missing setting HEATER_2_MAXTEMP
     #endif
-    #if DISABLED(HOTEND_2_MINTEMP)
-      #error DEPENDENCY ERROR: Missing setting HOTEND_2_MINTEMP
+    #if DISABLED(HEATER_2_MINTEMP)
+      #error DEPENDENCY ERROR: Missing setting HEATER_2_MINTEMP
     #endif
   #endif
   #if TEMP_SENSOR_3 != 0
-    #if DISABLED(HOTEND_3_MAXTEMP)
-      #error DEPENDENCY ERROR: Missing setting HOTEND_3_MAXTEMP
+    #if DISABLED(HEATER_3_MAXTEMP)
+      #error DEPENDENCY ERROR: Missing setting HEATER_3_MAXTEMP
     #endif
-    #if DISABLED(HOTEND_3_MINTEMP)
-      #error DEPENDENCY ERROR: Missing setting HOTEND_3_MINTEMP
-    #endif
-  #endif
-  #if TEMP_SENSOR_BED_0 != 0
-    #if DISABLED(BED_0_MAXTEMP)
-      #error DEPENDENCY ERROR: Missing setting BED_0_MAXTEMP
-    #endif
-    #if DISABLED(BED_0_MINTEMP)
-      #error DEPENDENCY ERROR: Missing setting BED_0_MINTEMP
+    #if DISABLED(HEATER_3_MINTEMP)
+      #error DEPENDENCY ERROR: Missing setting HEATER_3_MINTEMP
     #endif
   #endif
-  #if TEMP_SENSOR_BED_1 != 0
-    #if DISABLED(BED_1_MAXTEMP)
-      #error DEPENDENCY ERROR: Missing setting BED_1_MAXTEMP
+  #if TEMP_SENSOR_4 != 0
+    #if DISABLED(HEATER_4_MAXTEMP)
+      #error DEPENDENCY ERROR: Missing setting HEATER_4_MAXTEMP
     #endif
-    #if DISABLED(BED_1_MINTEMP)
-      #error DEPENDENCY ERROR: Missing setting BED_1_MINTEMP
-    #endif
-  #endif
-  #if TEMP_SENSOR_BED_2 != 0
-    #if DISABLED(BED_2_MAXTEMP)
-      #error DEPENDENCY ERROR: Missing setting BED_2_MAXTEMP
-    #endif
-    #if DISABLED(BED_2_MINTEMP)
-      #error DEPENDENCY ERROR: Missing setting BED_2_MINTEMP
+    #if DISABLED(HEATER_4_MINTEMP)
+      #error DEPENDENCY ERROR: Missing setting HEATER_4_MINTEMP
     #endif
   #endif
-  #if TEMP_SENSOR_BED_3 != 0
-    #if DISABLED(BED_3_MAXTEMP)
-      #error DEPENDENCY ERROR: Missing setting BED_3_MAXTEMP
+  #if TEMP_SENSOR_5 != 0
+    #if DISABLED(HEATER_5_MAXTEMP)
+      #error DEPENDENCY ERROR: Missing setting HEATER_5_MAXTEMP
     #endif
-    #if DISABLED(BED_3_MINTEMP)
-      #error DEPENDENCY ERROR: Missing setting BED_3_MINTEMP
+    #if DISABLED(HEATER_5_MINTEMP)
+      #error DEPENDENCY ERROR: Missing setting HEATER_5_MINTEMP
     #endif
   #endif
   #if DISABLED(PLA_PREHEAT_HOTEND_TEMP)
@@ -195,54 +164,7 @@
   #if DISABLED(PID_MAX)
     #error DEPENDENCY ERROR: Missing setting PID_MAX
   #endif
-  #if DISABLED(MAX_BED_POWER)
-    #error DEPENDENCY ERROR: Missing setting MAX_BED_POWER
-  #endif
-  #if ENABLED(PIDTEMP) || ENABLED(PIDTEMPBED)
-    #if DISABLED(MAX_OVERSHOOT_PID_AUTOTUNE)
-      #error DEPENDENCY ERROR: Missing setting MAX_OVERSHOOT_PID_AUTOTUNE
-    #endif
-  #endif
-  #if ENABLED(PIDTEMP)
-    #if DISABLED(PID_OPENLOOP) && DISABLED(PID_FUNCTIONAL_RANGE) 
-      #error DEPENDENCY ERROR: Missing setting PID_FUNCTIONAL_RANGE
-    #endif
-    #if DISABLED(PID_INTEGRAL_DRIVE_MAX)
-      #error DEPENDENCY ERROR: Missing setting PID_INTEGRAL_DRIVE_MAX
-    #endif
-    #if DISABLED(DEFAULT_Kp)
-      #error DEPENDENCY ERROR: Missing setting DEFAULT_Kp
-    #endif
-    #if DISABLED(DEFAULT_Ki)
-      #error DEPENDENCY ERROR: Missing setting DEFAULT_Ki
-    #endif
-    #if DISABLED(DEFAULT_Kd)
-      #error DEPENDENCY ERROR: Missing setting DEFAULT_Kd
-    #endif
-  #endif
-  #if ENABLED(PIDTEMPBED)
-    #if DISABLED(PID_BED_INTEGRAL_DRIVE_MAX)
-      #error DEPENDENCY ERROR: Missing setting PID_BED_INTEGRAL_DRIVE_MAX
-    #endif
-    #if DISABLED(DEFAULT_bedKp)
-      #error DEPENDENCY ERROR: Missing setting DEFAULT_bedKp
-    #endif
-    #if DISABLED(DEFAULT_bedKi)
-      #error DEPENDENCY ERROR: Missing setting DEFAULT_bedKi
-    #endif
-    #if DISABLED(DEFAULT_bedKd)
-      #error DEPENDENCY ERROR: Missing setting DEFAULT_bedKd
-    #endif
-  #endif
-  #if ENABLED(BED_LIMIT_SWITCHING)
-    #if DISABLED(BED_HYSTERESIS)
-      #error DEPENDENCY ERROR: Missing setting BED_HYSTERESIS
-    #endif
-    #if DISABLED(BED_CHECK_INTERVAL)
-      #error DEPENDENCY ERROR: Missing setting BED_CHECK_INTERVAL
-    #endif
-  #endif
-  #if ENABLED(THERMAL_PROTECTION_HOTENDS)
+  #if ENABLED(THERMAL_PROTECTION_HEATERS)
     #if DISABLED(THERMAL_PROTECTION_PERIOD)
       #error DEPENDENCY ERROR: Missing setting THERMAL_PROTECTION_PERIOD
     #endif
@@ -254,14 +176,6 @@
     #endif
     #if DISABLED(WATCH_TEMP_INCREASE)
       #error DEPENDENCY ERROR: Missing setting WATCH_TEMP_INCREASE
-    #endif
-  #endif
-  #if ENABLED(THERMAL_PROTECTION_BED)
-    #if DISABLED(THERMAL_PROTECTION_BED_PERIOD)
-      #error DEPENDENCY ERROR: Missing setting THERMAL_PROTECTION_BED_PERIOD
-    #endif
-    #if DISABLED(THERMAL_PROTECTION_BED_HYSTERESIS)
-      #error DEPENDENCY ERROR: Missing setting THERMAL_PROTECTION_BED_HYSTERESIS
     #endif
   #endif
 
@@ -282,15 +196,15 @@
     #endif
   #endif
 
-  #if ENABLED(EXTRUDER_AUTO_FAN)
-    #if DISABLED(EXTRUDER_AUTO_FAN_TEMPERATURE)
-      #error DEPENDENCY ERROR: Missing setting EXTRUDER_AUTO_FAN_TEMPERATURE
+  #if ENABLED(HEATER_AUTO_FAN)
+    #if DISABLED(HEATER_0_AUTO_FAN_TEMPERATURE)
+      #error DEPENDENCY ERROR: Missing setting HEATER_0_AUTO_FAN_TEMPERATURE
     #endif
-    #if DISABLED(EXTRUDER_AUTO_FAN_SPEED)
-      #error DEPENDENCY ERROR: Missing setting EXTRUDER_AUTO_FAN_SPEED
+    #if DISABLED(HEATER_AUTO_FAN_SPEED)
+      #error DEPENDENCY ERROR: Missing setting HEATER_AUTO_FAN_SPEED
     #endif
-    #if DISABLED(EXTRUDER_AUTO_FAN_MIN_SPEED)
-      #error DEPENDENCY ERROR: Missing setting EXTRUDER_AUTO_FAN_MIN_SPEED
+    #if DISABLED(HEATER_AUTO_FAN_MIN_SPEED)
+      #error DEPENDENCY ERROR: Missing setting HEATER_AUTO_FAN_MIN_SPEED
     #endif
   #endif
 
@@ -1604,21 +1518,21 @@
   /**
    * Test required HOTEND defines
    */
-  #if HOTENDS > 3
-    #if HASNT(HOTEND_3)
-      #error DEPENDENCY ERROR: HOTEND_3_PIN not EXIST for this board
+  #if HEATER_HOTENDS > 3
+    #if HASNT(HEATER_3)
+      #error DEPENDENCY ERROR: HEATER_3_PIN not EXIST for this board
     #endif
-  #elif HOTENDS > 2
-    #if HASNT(HOTEND_2)
-      #error DEPENDENCY ERROR: HOTEND_2_PIN not EXIST for this board
+  #elif HEATER_HOTENDS > 2
+    #if HASNT(HEATER_2)
+      #error DEPENDENCY ERROR: HEATER_2_PIN not EXIST for this board
     #endif
-  #elif HOTENDS > 1 || ENABLED(HEATERS_PARALLEL)
-    #if HASNT(HOTEND_1)
-      #error DEPENDENCY ERROR: HOTEND_1_PIN not EXIST for this board
+  #elif HEATER_HOTENDS > 1
+    #if HASNT(HEATER_1)
+      #error DEPENDENCY ERROR: HEATER_1_PIN not EXIST for this board
     #endif
-  #elif HOTENDS > 0
-    #if HASNT(HOTEND_0)
-      #error DEPENDENCY ERROR: HOTEND_0_PIN not EXIST for this board
+  #elif HEATER_HOTENDS > 0
+    #if HASNT(HEATER_0)
+      #error DEPENDENCY ERROR: HEATER_0_PIN not EXIST for this board
     #endif
   #endif
   

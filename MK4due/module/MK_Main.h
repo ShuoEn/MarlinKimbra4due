@@ -18,7 +18,7 @@ void ok_to_send();
 
 bool setTargetedExtruder(int code);
 bool setTargetedHotend(int code);
-bool setTargetedBed(int code);
+bool setTargetedHeater(int code);
 
 #if MECH(DELTA)
   float probe_bed(float x, float y);

@@ -1,6 +1,6 @@
 /**
- * Heated.h
- * Designed for module Hotend and Bed
+ * Heater.h
+ * Designed for Heater Tools Hotend, Bed and Chamber
  *
  * Copyright (C) 2016 Alberto Cotronei MagoKimbra
  *
@@ -22,51 +22,52 @@
 #include "thermistortables.h"
 #include <stdint.h>
 
-#ifndef HEATED_H
-  #define HEATED_H
+#ifndef HEATER_H
+  #define HEATER_H
 
-  static void* heater_ttbl_map[13] = {(void*)temptable_1, (void*)temptable_2, (void*)temptable_3, (void*)temptable_4
+  static void* heater_ttbl_map[13] = {
+    (void*)temptable_1, (void*)temptable_2, (void*)temptable_3, (void*)temptable_4,
+    (void*)temptable_5, (void*)temptable_6, (void*)temptable_7, (void*)temptable_8,
+    (void*)temptable_9, (void*)temptable_10
     #if NUM_TEMPS_USERTHERMISTOR0 > 0
-      ,(void*)temptable_5
+      ,(void*)temptable_11
     #else
       ,0
     #endif
     #if NUM_TEMPS_USERTHERMISTOR1 > 0
-      ,(void*)temptable_6
+      ,(void*)temptable_12
     #else
       ,0
     #endif
     #if NUM_TEMPS_USERTHERMISTOR2 > 0
-      ,((void*)temptable_7
+      ,(void*)temptable_13
     #else
       ,0
     #endif
-    ,(void*)temptable_8
-    ,(void*)temptable_9
-    ,(void*)temptable_10
-    ,(void*)temptable_11
-    ,(void*)temptable_12
-    ,(void*)temptable_13
   };
 
   static uint8_t heater_ttbllen_map[13] PROGMEM = {
     COUNT(temptable_1), COUNT(temptable_2), COUNT(temptable_3), COUNT(temptable_4),
-    NUM_TEMPS_USERTHERMISTOR0, NUM_TEMPS_USERTHERMISTOR1, NUM_TEMPS_USERTHERMISTOR2,
-    COUNT(temptable_8), COUNT(temptable_9), COUNT(temptable_10), COUNT(temptable_11),
-    COUNT(temptable_12), COUNT(temptable_13)
+    COUNT(temptable_5), COUNT(temptable_6), COUNT(temptable_7), COUNT(temptable_8),
+    COUNT(temptable_9), COUNT(temptable_10),
+    NUM_TEMPS_USERTHERMISTOR0, NUM_TEMPS_USERTHERMISTOR1, NUM_TEMPS_USERTHERMISTOR2
   };
 
-  class Heated {
+  class Heater {
     public:
       uint8_t id;
-      int16_t sensorType;
-      uint8_t heater_pin;
-      uint8_t sensor_pin;
+      uint8_t sensorType;
+      int8_t sensor_pin;
+      int8_t heater_pin;
       int8_t fan_pin;
       int16_t currentTemperature_raw;
       int16_t targetTemperature_raw;
+      int16_t minttempC;
+      int16_t maxttempC;
+      uint8_t pid_max;
       float currentTemperatureC;
       float targetTemperatureC;
+      bool use_pid;
       float Kp;
       float Ki;
       float Kd;
@@ -74,9 +75,8 @@
       float hotend_offset[3];
       float ad595_offset;
       float ad595_gain;
+      bool has_fan;
       int16_t auto_fan_temperature;
-      int16_t minttempC;
-      int16_t maxttempC;
       unsigned char soft_pwm;
 
       int getHeaterPower() { return this->soft_pwm; }
@@ -134,16 +134,12 @@
           case 101:
             return (float)raw / 4.0;
           break;
-          case 998:
-            return DUMMY_THERMISTOR_998_VALUE; break;
-          case 999:
-            return DUMMY_THERMISTOR_999_VALUE; break;
         }
       }
+    private:
   };
 
-  extern Heated Hotends[];
-  extern Heated Beds[];
+  extern Heater Heaters[];
 
   // public functions
   void Heated_init();   // initialize the heating
@@ -151,9 +147,9 @@
   void Update_heater();
   void disable_all_heaters();
   void updatePID();
-  void PID_autotune(float temp, int hotend, int ncycles);
-  void setExtruderAutoFanState(int pin, bool state);
-  void checkExtruderAutoFans();
+  void PID_autotune(float temp, int heater, int ncycles);
+  void setHeaterAutoFanState(int pin, bool state);
+  void checkHeaterAutoFans();
   void autotempShutdown();
 
   float scalePID_i(float i);
@@ -188,29 +184,9 @@
   #endif
 
   FORCE_INLINE void setTargetCelsius(const float& celsius, uint8_t heater) {
-    Hotends[heater].targetTemperatureC = celsius;
+    Heaters[heater].targetTemperatureC = celsius;
     #if ENABLED(THERMAL_PROTECTION_HOTENDS)
       start_watching_heater(heater);
     #endif
   }
-
-  #define HOTEND_ROUTINES(NR) \
-    FORCE_INLINE void setTargetHotend##NR(const float c) { setTargetCelsius(c, NR); } \
-  HOTEND_ROUTINES(0);
-  #if HOTENDS > 1
-    HOTEND_ROUTINES(1);
-  #else
-    #define setTargetHotend1(c) do{}while(0)
-  #endif
-  #if HOTENDS > 2
-    HOTEND_ROUTINES(2);
-  #else
-    #define setTargetHotend2(c) do{}while(0)
-  #endif
-  #if HOTENDS > 3
-    HOTEND_ROUTINES(3);
-  #else
-    #define setTargetHotend3(c) do{}while(0)
-  #endif
-
 #endif // HEATED_H

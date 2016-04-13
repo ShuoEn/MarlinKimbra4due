@@ -19,6 +19,10 @@
  *
  * Description:          *** HAL for Arduino Due ***
  *
+ * Contributors:
+ * Copyright (c) 2014 Bob Cousins bobcousins42@googlemail.com
+ *                    Nico Tonnhofer wurstnase.reprap@gmail.com
+ *
  * ARDUINO_ARCH_SAM
  */
 
@@ -71,6 +75,11 @@
   #define LOW         0
   #undef HIGH
   #define HIGH        1
+
+  // Bits of the ADC converter
+  #define ANALOG_INPUT_BITS 12
+  #define ANALOG_REDUCE_BITS 0
+  #define ANALOG_REDUCE_FACTOR 1
 
   /**
    * Types

@@ -105,26 +105,41 @@
   #define ORIG_E5_STEP_PIN    -1
 #endif
 
-#ifndef ORIG_HOTEND_0_PIN
-  #define ORIG_HOTEND_0_PIN   -1
+#ifndef ORIG_TEMP_0_PIN
+  #define ORIG_TEMP_0_PIN     -1
 #endif
-#ifndef ORIG_HOTEND_1_PIN
-  #define ORIG_HOTEND_1_PIN   -1
+#ifndef ORIG_HEATER_0_PIN
+  #define ORIG_HEATER_0_PIN   -1
 #endif
 #ifndef ORIG_TEMP_1_PIN
   #define ORIG_TEMP_1_PIN     -1
 #endif
-#ifndef ORIG_HOTEND_2_PIN
-  #define ORIG_HOTEND_2_PIN   -1
+#ifndef ORIG_HEATER_1_PIN
+  #define ORIG_HEATER_1_PIN   -1
 #endif
 #ifndef ORIG_TEMP_2_PIN
   #define ORIG_TEMP_2_PIN     -1
 #endif
-#ifndef ORIG_HOTEND_3_PIN
-  #define ORIG_HOTEND_3_PIN   -1
+#ifndef ORIG_HEATER_2_PIN
+  #define ORIG_HEATER_2_PIN   -1
 #endif
 #ifndef ORIG_TEMP_3_PIN
   #define ORIG_TEMP_3_PIN     -1
+#endif
+#ifndef ORIG_HEATER_3_PIN
+  #define ORIG_HEATER_3_PIN   -1
+#endif
+#ifndef ORIG_TEMP_4_PIN
+  #define ORIG_TEMP_4_PIN     -1
+#endif
+#ifndef ORIG_HEATER_4_PIN
+  #define ORIG_HEATER_4_PIN   -1
+#endif
+#ifndef ORIG_TEMP_5_PIN
+  #define ORIG_TEMP_5_PIN     -1
+#endif
+#ifndef ORIG_HEATER_5_PIN
+  #define ORIG_HEATER_5_PIN   -1
 #endif
 
 #if ENABLED(X_STOP_PIN)
@@ -277,23 +292,23 @@
 /****************************************************************************************/
 
 // List of pins which to ignore when asked to change by gcode, 0 and 1 are RX and TX, do not mess with those!
-#if HOTENDS > 0
-  #define _H0_PINS HOTEND_0_PIN, analogInputToDigitalPin(TEMP_0_PIN),
+#if NUM_HEATER > 0
+  #define _H0_PINS HEATER_0_PIN, analogInputToDigitalPin(TEMP_0_PIN),
 #else
   #define _H0_PINS
 #endif
 #if HOTENDS > 1
-  #define _H1_PINS HOTEND_1_PIN, analogInputToDigitalPin(TEMP_1_PIN),
+  #define _H1_PINS HEATER_1_PIN, analogInputToDigitalPin(TEMP_1_PIN),
 #else
   #define _H1_PINS
 #endif
 #if HOTENDS > 2
-  #define _H2_PINS HOTEND_2_PIN, analogInputToDigitalPin(TEMP_2_PIN),
+  #define _H2_PINS HEATER_2_PIN, analogInputToDigitalPin(TEMP_2_PIN),
 #else
   #define _H2_PINS
 #endif
 #if HOTENDS > 3
-  #define _H3_PINS HOTEND_3_PIN, analogInputToDigitalPin(TEMP_3_PIN),
+  #define _H3_PINS HEATER_3_PIN, analogInputToDigitalPin(TEMP_3_PIN),
 #else
   #define _H3_PINS
 #endif

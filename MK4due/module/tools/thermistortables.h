@@ -161,26 +161,8 @@
     {1008 * OVERSAMPLENR, -35}
   };
 
-  #define NUM_TEMPS_USERTHERMISTOR0 0
-  const short temptable_5[][2] PROGMEM = {
-    {1 * OVERSAMPLENR, 0},
-    {1023 * OVERSAMPLENR, 100}
-  };
-
-  #define NUM_TEMPS_USERTHERMISTOR1 0
-  const short temptable_6[][2] PROGMEM = {
-    {1 * OVERSAMPLENR, 0},
-    {1023 * OVERSAMPLENR, 100}
-  };
-
-  #define NUM_TEMPS_USERTHERMISTOR2 0
-  const short temptable_7[][2] PROGMEM = {
-    {1 * OVERSAMPLENR, 0},
-    {1023 * OVERSAMPLENR, 100}
-  };
-
   // 100k 0603 SMD Vishay NTCS0603E3104FXT (4.7k pullup)
-  const short temptable_8[][2] PROGMEM = {
+  const short temptable_5[][2] PROGMEM = {
     {1 * OVERSAMPLENR, 704},
     {54 * OVERSAMPLENR, 216},
     {107 * OVERSAMPLENR, 175},
@@ -204,7 +186,7 @@
   };
 
   // 100k GE Sensing AL03006-58.2K-97-G1 (4.7k pullup)
-  const short temptable_9[][2] PROGMEM = {
+  const short temptable_6[][2] PROGMEM = {
     {1 * OVERSAMPLENR, 936},
     {36 * OVERSAMPLENR, 300},
     {71 * OVERSAMPLENR, 246},
@@ -239,7 +221,7 @@
   };
 
   // 100k RS thermistor 198-961 (4.7k pullup)
-  const short temptable_10[][2] PROGMEM = {
+  const short temptable_7[][2] PROGMEM = {
     {1 * OVERSAMPLENR, 929},
     {36 * OVERSAMPLENR, 299},
     {71 * OVERSAMPLENR, 246},
@@ -274,7 +256,7 @@
   };
 
   // QU-BD silicone bed QWG-104F-3950 thermistor
-  const short temptable_11[][2] PROGMEM = {
+  const short temptable_8[][2] PROGMEM = {
     {1 * OVERSAMPLENR,        938},
     {31 * OVERSAMPLENR,       314},
     {41 * OVERSAMPLENR,       290},
@@ -328,7 +310,7 @@
   };
 
   //100k 0603 SMD Vishay NTCS0603E3104FXT (4.7k pullup) (calibrated for Makibox hot bed)
-  const short temptable_12[][2] PROGMEM = {
+  const short temptable_9[][2] PROGMEM = {
     {35 * OVERSAMPLENR, 180}, //top rating 180C
     {211 * OVERSAMPLENR, 140},
     {233 * OVERSAMPLENR, 135},
@@ -362,7 +344,7 @@
   };
 
   // Hisens thermistor B25/50 =3950 +/-1%
-  const short temptable_13[][2] PROGMEM = {
+  const short temptable_10[][2] PROGMEM = {
     { 20.04 * OVERSAMPLENR, 300 },
     { 23.19 * OVERSAMPLENR, 290 },
     { 26.71 * OVERSAMPLENR, 280 },
@@ -386,7 +368,24 @@
     { 939.52 * OVERSAMPLENR, 40 },
     { 986.03 * OVERSAMPLENR, 20 },
     { 1008.7 * OVERSAMPLENR, 0}
+  };
 
+  #define NUM_TEMPS_USERTHERMISTOR0 0
+  const short temptable_11[][2] PROGMEM = {
+    {1 * OVERSAMPLENR, 0},
+    {1023 * OVERSAMPLENR, 100}
+  };
+
+  #define NUM_TEMPS_USERTHERMISTOR1 0
+  const short temptable_12[][2] PROGMEM = {
+    {1 * OVERSAMPLENR, 0},
+    {1023 * OVERSAMPLENR, 100}
+  };
+
+  #define NUM_TEMPS_USERTHERMISTOR2 0
+  const short temptable_13[][2] PROGMEM = {
+    {1 * OVERSAMPLENR, 0},
+    {1023 * OVERSAMPLENR, 100}
   };
 
 #endif //THERMISTORTABLES_H_

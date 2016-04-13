@@ -17,7 +17,7 @@
 
 #include "Configuration_Version.h"
 #include "Configuration_Basic.h"
-#include "Configuration_Heated.h"
+#include "Configuration_Heater.h"
 #include "Configuration_Overall.h"
 
 #if MECH(CARTESIAN)
@@ -43,7 +43,7 @@
 #include "module/sanitycheck.h"
 #include "module/HAL/HAL.h"
 #include "module/communication/communication.h"
-#include "module/tools/heated.h"
+#include "module/tools/heater.h"
 
 #include "Configuration_Store.h"
 
