@@ -76,11 +76,6 @@
   #undef HIGH
   #define HIGH        1
 
-  // Bits of the ADC converter
-  #define ANALOG_INPUT_BITS 12
-  #define ANALOG_REDUCE_BITS 0
-  #define ANALOG_REDUCE_FACTOR 1
-
   /**
    * Types
    */

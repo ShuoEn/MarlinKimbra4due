@@ -715,6 +715,7 @@ void Heated_init() {
     temp_iState_min[heater] = 0.0;
     temp_iState_max[heater] = PID_INTEGRAL_DRIVE_MAX / Heaters[heater].Ki;
 
+    /*
     ECHO_EMV("NUM HEATER = ", NUM_HEATER);
     ECHO_EMV("id = ", Heaters[heater].id);
     ECHO_EMV("sensorType = ", Heaters[heater].sensorType);
@@ -738,6 +739,7 @@ void Heated_init() {
     ECHO_EMV("has_fan = ", Heaters[heater].has_fan);
     ECHO_EMV("auto_fan_temperature = ", Heaters[heater].auto_fan_temperature);
     ECHO_EMV("soft_pwm = ", Heaters[heater].soft_pwm);
+    */
 
     SET_OUTPUT(Heaters[heater].heater_pin);
   }
@@ -944,12 +946,7 @@ void Update_heater() {
      */
     if (pwm_count == 0) {
       for (uint8_t heater = 0; heater < NUM_HEATER; heater++) {
-        ECHO_EMV("soft_pwm = ", Heaters[heater].soft_pwm);
-        if (Heaters[heater].soft_pwm > 0)
-          WRITE_HEATER(Heaters[heater].heater_pin, 1);
-        else
-          WRITE_HEATER(Heaters[heater].heater_pin, 0);
-        //WRITE_HEATER(Heaters[heater].heater_pin, Heaters[heater].soft_pwm > 0 ? 1 : 0);
+        WRITE_HEATER(Heaters[heater].heater_pin, Heaters[heater].soft_pwm > 0 ? 1 : 0);
       }
 
       #if ENABLED(FAN_SOFT_PWM)
@@ -1162,16 +1159,6 @@ void Update_heater() {
     //  break;
   } // switch(temp_state)
 
-  #define SET_CURRENT_TEMP_RAW(temp_id) raw_median_temp[temp_id][median_counter] = (raw_temp_value[temp_id] - (min_temp[temp_id] + max_temp[temp_id])); \
-    sum = 0; \
-    for(int i = 0; i < MEDIAN_COUNT; i++) sum += raw_median_temp[temp_id][i]; \
-    Heaters[temp_id].currentTemperature_raw = (sum / MEDIAN_COUNT + 4) >> 2
-      
-  #define SET_CURRENT_BED_RAW(temp_id) raw_median_temp_bed[temp_id][median_counter] = (raw_temp_bed_value[temp_id] - (min_temp_bed[temp_id] + max_temp_bed[temp_id])); \
-    sum = 0; \
-    for(int i = 0; i < MEDIAN_COUNT; i++) sum += raw_median_temp_bed[temp_id][i]; \
-    Beds[temp_id].currentTemperature_raw = (sum / MEDIAN_COUNT + 4) >> 2
-
   if (temp_count >= OVERSAMPLENR + 2) { // 14 * 16 * 1/(16000000/64/256)  = 164ms.
     if (!temp_meas_ready) { //Only update the raw values if they have been read. Else we could be updating them during reading.
       unsigned long sum = 0;
@@ -1198,19 +1185,19 @@ void Update_heater() {
 
     median_counter++;
     if (median_counter >= MEDIAN_COUNT) median_counter = 0;
-
     temp_meas_ready = true;
     temp_count = 0;
-    for (uint8_t heater = 0; heater < NUM_HEATER; heater++) raw_temp_value[heater] = 0;
+
+    for (uint8_t heater = 0; heater < NUM_HEATER; heater++) {
+      if (Heaters[heater].currentTemperatureC < Heaters[heater].minttempC ) min_temp_error(heater);
+      if (Heaters[heater].currentTemperatureC > Heaters[heater].maxttempC ) max_temp_error(heater);
+      raw_temp_value[heater] = 0;
+    }
 
     #if HAS(POWER_CONSUMPTION_SENSOR)
       raw_powconsumption_value = 0;
     #endif
-/*
-    for (uint8_t h = 0; h < HOTENDS; h++) {
-      if (Heaters[heater].currentTemperatureC < Heaters[heater].minttempC ) min_temp_error(h);
-      if (Heaters[heater].currentTemperatureC > Heaters[heater].maxttempC ) max_temp_error(h);
-    }*/
+
   } // temp_count >= OVERSAMPLENR
 
   #if ENABLED(BABYSTEPPING)

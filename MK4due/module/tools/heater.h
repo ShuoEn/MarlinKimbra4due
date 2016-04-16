@@ -64,7 +64,6 @@
       int16_t targetTemperature_raw;
       int16_t minttempC;
       int16_t maxttempC;
-      uint8_t pid_max;
       float currentTemperatureC;
       float targetTemperatureC;
       bool use_pid;
@@ -72,6 +71,7 @@
       float Ki;
       float Kd;
       float Kc;
+      uint8_t pid_max;
       float hotend_offset[3];
       float ad595_offset;
       float ad595_gain;

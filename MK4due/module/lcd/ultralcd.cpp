@@ -679,7 +679,7 @@ static void lcd_tune_menu() {
 void _lcd_preheat(int endnum, const float temph, const float tempb, const int fan) {
   if (temph > 0) setTargetHotend(temph, endnum);
   #if TEMP_SENSOR_BED != 0
-    setTargetBed(tempb);
+    Bed.targetTemperatureC = tempb;
   #endif
   fanSpeed = fan;
   lcd_return_to_status();

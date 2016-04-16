@@ -96,7 +96,7 @@
 #define SERIAL_END_FILE_LIST                    "End file list"
 #define SERIAL_INVALID_EXTRUDER                 "Invalid extruder"
 #define SERIAL_INVALID_HOTEND                   "Invalid hotend"
-#define SERIAL_INVALID_BED                      "Invalid bed"
+#define SERIAL_INVALID_HEATER                   "Invalid heater"
 #define SERIAL_INVALID_SOLENOID                 "Invalid solenoid"
 #define SERIAL_ERR_NO_THERMISTORS               "No thermistors - no temperature"
 #define SERIAL_COUNT_X                          " Count X: "

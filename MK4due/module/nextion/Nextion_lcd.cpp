@@ -619,8 +619,10 @@
     millis_t ms = millis();
 
     if (ms > next_lcd_update_ms) {
-      if (NextionPage == 1) {
 
+      sendCurrentPageId(&NextionPage);
+
+      if (NextionPage == 1) {
         if (fanSpeed > 0) fantimer.enable();
         else fantimer.disable();
 

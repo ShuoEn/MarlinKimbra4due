@@ -5042,18 +5042,18 @@ inline void gcode_M92() {
  * M104: Set hot end temperature
  */
 inline void gcode_M104() {
-  if (setTargetedExtruder(104)) return;
+  if (setTargetedHotend(104)) return;
   if (debugLevel & DEBUG_DRYRUN) return;
 
   #if HEATER_HOTENDS == 1
-    if (target_extruder != active_extruder) return;
+    if (target_hotend != active_extruder) return;
   #endif
 
   if (code_seen('S')) {
     float temp = code_value();
-    setTargetCelsius(temp, target_extruder);
+    setTargetCelsius(temp, target_hotend);
     #if ENABLED(DUAL_X_CARRIAGE)
-      if (dual_x_carriage_mode == DXC_DUPLICATION_MODE && target_extruder == 0)
+      if (dual_x_carriage_mode == DXC_DUPLICATION_MODE && target_hotend == 0)
         setTargetHotend1(temp == 0.0 ? 0.0 : temp + duplicate_extruder_temp_offset);
     #endif
   }

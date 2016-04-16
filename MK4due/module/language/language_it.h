@@ -192,8 +192,6 @@
 
 #define MSG_HEATING                         "Riscaldamento..."
 #define MSG_HEATING_COMPLETE                "Riscaldamento finito."
-#define MSG_BED_HEATING                     "Riscaldamento piatto."
-#define MSG_BED_DONE                        "Piatto riscaldato."
 
 // Extra
 #define MSG_LASER                           "Laser Preset"
