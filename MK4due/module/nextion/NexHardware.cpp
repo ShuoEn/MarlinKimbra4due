@@ -84,7 +84,6 @@ __return:
     return ret;
 }
 
-
 /*
  * Receive string data. 
  * 
@@ -222,7 +221,7 @@ bool nexInit(void)
 {
     bool ret1 = false;
     bool ret2 = false;
-    
+
     // Try default baudrate
     dbSerialBegin(9600);
     nexSerial.begin(9600);

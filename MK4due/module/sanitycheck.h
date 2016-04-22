@@ -67,6 +67,13 @@
 
   // Temperature
   /**
+   * NUM_HEATER
+   */
+  #if NUM_HEATER > 6
+    #error ERROR: NUM_HEATER must is max 6
+  #endif
+
+  /**
    * Temperature defines
    */
   #if ENABLED(TEMP_RESIDENCY_TIME)
@@ -1516,21 +1523,29 @@
   #endif
 
   /**
-   * Test required HOTEND defines
+   * Test required HEATER defines
    */
-  #if HEATER_HOTENDS > 3
+  #if NUM_HEATER > 5
+    #if HASNT(HEATER_5)
+      #error DEPENDENCY ERROR: HEATER_5_PIN not EXIST for this board
+    #endif
+  #elif NUM_HEATER > 4
+    #if HASNT(HEATER_4)
+      #error DEPENDENCY ERROR: HEATER_4_PIN not EXIST for this board
+    #endif
+  #elif NUM_HEATER > 3
     #if HASNT(HEATER_3)
       #error DEPENDENCY ERROR: HEATER_3_PIN not EXIST for this board
     #endif
-  #elif HEATER_HOTENDS > 2
+  #elif NUM_HEATER > 2
     #if HASNT(HEATER_2)
       #error DEPENDENCY ERROR: HEATER_2_PIN not EXIST for this board
     #endif
-  #elif HEATER_HOTENDS > 1
+  #elif NUM_HEATER > 1
     #if HASNT(HEATER_1)
       #error DEPENDENCY ERROR: HEATER_1_PIN not EXIST for this board
     #endif
-  #elif HEATER_HOTENDS > 0
+  #elif NUM_HEATER > 0
     #if HASNT(HEATER_0)
       #error DEPENDENCY ERROR: HEATER_0_PIN not EXIST for this board
     #endif

@@ -7,7 +7,6 @@
  * EXTRUDER FEATURES:
  * - Default nominal filament diameter
  * - Dangerous extrution prevention
- * - Single nozzle
  * - BariCUDA paste extruder
  * - Color Mixing Extruder
  * - Multiextruder MKR4
@@ -101,19 +100,6 @@
 // if PREVENT DANGEROUS EXTRUDE is on, you can still disable (uncomment) very long bits of extrusion separately.
 //#define PREVENT_LENGTHY_EXTRUDE
 #define EXTRUDE_MAXLENGTH (X_MAX_LENGTH + Y_MAX_LENGTH) // prevent extrusion of very large distances.
-/***********************************************************************/
-
-
-/***********************************************************************
- **************************** Single nozzle ****************************
- ***********************************************************************
- *                                                                     *
- * This is used for single nozzle and multiple extrusion configuration *
- *                                                                     *
- * Uncomment SINGLENOZZLE to enable this feature                       *
- *                                                                     *
- ***********************************************************************/
-//#define SINGLENOZZLE
 /***********************************************************************/
 
 

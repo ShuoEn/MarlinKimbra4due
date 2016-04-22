@@ -59,7 +59,6 @@
       uint8_t sensorType;
       int8_t sensor_pin;
       int8_t heater_pin;
-      int8_t fan_pin;
       int16_t currentTemperature_raw;
       int16_t targetTemperature_raw;
       int16_t minttempC;
@@ -76,7 +75,10 @@
       float ad595_offset;
       float ad595_gain;
       bool has_fan;
+      int8_t fan_pin;
       int16_t auto_fan_temperature;
+      uint8_t fan_max_speed;
+      uint8_t fan_min_speed;
       unsigned char soft_pwm;
 
       int getHeaterPower() { return this->soft_pwm; }
@@ -180,13 +182,13 @@
     extern volatile int babystepsTodo[3];
   #endif
 
-  #if ENABLED(THERMAL_PROTECTION_HOTENDS)
+  #if ENABLED(THERMAL_PROTECTION_HEATERS)
     void start_watching_heater(int h = 0);
   #endif
 
   FORCE_INLINE void setTargetCelsius(const float& celsius, uint8_t heater) {
     Heaters[heater].targetTemperatureC = celsius;
-    #if ENABLED(THERMAL_PROTECTION_HOTENDS)
+    #if ENABLED(THERMAL_PROTECTION_HEATERS)
       start_watching_heater(heater);
     #endif
   }

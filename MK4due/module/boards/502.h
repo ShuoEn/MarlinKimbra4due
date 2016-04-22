@@ -73,17 +73,17 @@
 #define SUICIDE_PIN           -1 //PIN that has to be turned on right after start, to keep power flowing.
 
 // Note that on the Due pin A0 on the board is channel 2 on the ARM chip
-#define ORIG_BED_0_PIN        69 // PA0
-#define ORIG_HOTEND_0_PIN     68 // PA1
-#define ORIG_HOTEND_1_PIN      8 // PC22 on piggy
-#define ORIG_HOTEND_2_PIN      9 // PC21 on piggy
-#define ORIG_HOTEND_3_PIN     97 // PC20 on piggy
+#define ORIG_HEATER_0_PIN     68 // PA1
+#define ORIG_HEATER_1_PIN     69 // PA0 BED
+#define ORIG_HEATER_2_PIN      8 // PC22 on piggy
+#define ORIG_HEATER_3_PIN      9 // PC21 on piggy
+#define ORIG_HEATER_4_PIN     97 // PC20 on piggy
 
-#define ORIG_TEMP_BED_0_PIN    0 // PA16
-#define ORIG_TEMP_0_PIN        1 // PA24, analog pin
-#define ORIG_TEMP_1_PIN        2 // PA23 analog pin on piggy
-#define ORIG_TEMP_2_PIN        3 // PA22, analog pin on piggy
-#define ORIG_TEMP_3_PIN        4 // PA6, analog on piggy
+#define ORIG_TEMP_0_PIN        1 // PA24 analog pin
+#define ORIG_TEMP_1_PIN        0 // PA16 analog pin normaly used BED
+#define ORIG_TEMP_2_PIN        2 // PA23 analog pin on piggy
+#define ORIG_TEMP_3_PIN        3 // PA22 analog pin on piggy
+#define ORIG_TEMP_4_PIN        4 // PA6  analog pin on piggy
 
 #define LED_PWM1_PIN          36 // PC4
 #define LED_PWM2_PIN          40 // PC8

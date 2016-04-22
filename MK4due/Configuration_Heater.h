@@ -6,6 +6,7 @@
  * You can configure a maximum of 6 heaters.
  * These can be Heater Hotend, Heater Bed and Heater Chamber.
  *
+ * - Single nozzle
  * - Number Heater Hotend
  * - Number Heater Bed
  * - Number Heater Chamber
@@ -21,12 +22,26 @@
  */
 
 
+ /***********************************************************************
+ **************************** Single nozzle ****************************
+ ***********************************************************************
+ *                                                                     *
+ * This is used for single nozzle and multiple extrusion configuration *
+ *                                                                     *
+ * Uncomment SINGLENOZZLE to enable this feature                       *
+ *                                                                     *
+ ***********************************************************************/
+//#define SINGLENOZZLE
+/***********************************************************************/
+
+
 /***********************************************************************
  ************************** Heater number ******************************
  ***********************************************************************
  * Number of Heater Hotends (0 - 6)                                    *
  * Number of Heater Beds    (0 - 6)                                    *
  * Number of Heater Chamber (0 - 6)                                    *
+ * Max Heater Hotends + Heater Beds + Heater Chamber must is 6         *
  ***********************************************************************/
 #define HEATER_HOTENDS  1
 #define HEATER_BEDS     0
@@ -38,7 +53,7 @@
  *****************************************************************************************************
  *                                                                                                   *
  * Temperature sensor settings (4.7kohm PULLUP):                                                     *
- *   0 is not used read 25°C                                                                         *
+ *   0 is Fake temp. sensor always returning 25°C                                                    *
  *   1 is 100k thermistor - best choice for EPCOS 100k (4.7k pullup)                                 *
  *   2 is 200k thermistor - ATC Semitec 204GT-2 (4.7k pullup)                                        *
  *   3 is Mendel-parts thermistor (4.7k pullup)                                                      *
@@ -49,13 +64,13 @@
  *   8 is 100k 0603 SMD Vishay NTCS0603E3104FXT (4.7k pullup)                                        *
  *   9 is 100k GE Sensing AL03006-58.2K-97-G1 (4.7k pullup)                                          *
  *  10 is 100k RS thermistor 198-961 (4.7k pullup)                                                   *
- *  11 User 0 sensor                                                *
- *  12 User 1 sensor
- *  13 User 2 sensor
- *
- * Sensor Thermocouple
- * 100 is thermocouple with AD595 or AD597
- * 101 is thermocouple with MAX6675 (only for sensor 0)
+ *  11 User 0 sensor                                                                                 *
+ *  12 User 1 sensor                                                                                 *
+ *  13 User 2 sensor                                                                                 *
+ *                                                                                                   *
+ * Sensor Thermocouple                                                                               *
+ * 100 is thermocouple with AD595 or AD597                                                           *
+ * 101 is thermocouple with MAX6675 (only for sensor 0)                                              *
  *                                                                                                   *
  *****************************************************************************************************/
 #define TEMP_SENSOR_0     1
@@ -146,8 +161,9 @@
  * define the BED_WATTS, and (shared for all hotend) HOTEND_WATTS      *
  *                                                                     *
  ***********************************************************************/
-//#define HEATER_WATTS (12.0*12.0/6.7)  //  P=I^2/R
-//#define BED_WATTS (12.0*12.0/1.1)     // P=I^2/R
+//#define HEATER_WATTS  (12.0*12.0/6.7) // P=I^2/R
+//#define BED_WATTS     (12.0*12.0/1.1) // P=I^2/R
+//#define CHAMBER_WATTS (12.0*12.0/1.1) // P=I^2/R
 /***********************************************************************/
 
 
@@ -304,15 +320,30 @@
 // Configure fan pin outputs to automatically turn on/off when the associated
 // Heated temperature is above/below HEATED AUTO FAN TEMPERATURE.
 // You need to set _AUTO_FAN_PIN in Configuration_pins.h
-//#define HEATER_AUTO_FAN
-#define HEATER_0_AUTO_FAN_TEMPERATURE 50
-#define HEATER_1_AUTO_FAN_TEMPERATURE 50
-#define HEATER_2_AUTO_FAN_TEMPERATURE 50
-#define HEATER_3_AUTO_FAN_TEMPERATURE 50
-#define HEATER_4_AUTO_FAN_TEMPERATURE 50
-#define HEATER_5_AUTO_FAN_TEMPERATURE 50
-#define HEATER_AUTO_FAN_SPEED        255  // 255 = full speed
-#define HEATER_AUTO_FAN_MIN_SPEED      0
+#define HEATER_0_AUTO_FAN false
+#define HEATER_1_AUTO_FAN false
+#define HEATER_2_AUTO_FAN false
+#define HEATER_3_AUTO_FAN false
+#define HEATER_4_AUTO_FAN false
+#define HEATER_5_AUTO_FAN false
+#define HEATER_0_AUTO_FAN_TEMPERATURE  50
+#define HEATER_1_AUTO_FAN_TEMPERATURE  50
+#define HEATER_2_AUTO_FAN_TEMPERATURE  50
+#define HEATER_3_AUTO_FAN_TEMPERATURE  50
+#define HEATER_4_AUTO_FAN_TEMPERATURE  50
+#define HEATER_5_AUTO_FAN_TEMPERATURE  50
+#define HEATER_0_AUTO_FAN_MAX_SPEED   255  // 255 = full speed
+#define HEATER_1_AUTO_FAN_MAX_SPEED   255  // 255 = full speed
+#define HEATER_2_AUTO_FAN_MAX_SPEED   255  // 255 = full speed
+#define HEATER_3_AUTO_FAN_MAX_SPEED   255  // 255 = full speed
+#define HEATER_4_AUTO_FAN_MAX_SPEED   255  // 255 = full speed
+#define HEATER_5_AUTO_FAN_MAX_SPEED   255  // 255 = full speed
+#define HEATER_0_AUTO_FAN_MIN_SPEED     0
+#define HEATER_1_AUTO_FAN_MIN_SPEED     0
+#define HEATER_2_AUTO_FAN_MIN_SPEED     0
+#define HEATER_3_AUTO_FAN_MIN_SPEED     0
+#define HEATER_4_AUTO_FAN_MIN_SPEED     0
+#define HEATER_5_AUTO_FAN_MIN_SPEED     0
 /**************************************************************************/
 
 

@@ -2,8 +2,8 @@
  * MK4due Firmware
  *
  * Based on Marlin, Sprinter and grbl
- * Copyright (C) 2013 MagoKimbra
  * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2013 - 2016 Alberto Cotronei @MagoKimbra
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -79,6 +79,7 @@
  * M30  - Delete file from SD (M30 filename.g)
  * M31  - Output time since last M109 or SD card start to serial
  * M32  - Make directory
+ * M35  - Upload Firmware to Nextion from SD
  * M42  - Change pin status via gcode Use M42 Px Sy to set pin x to value y, when omitting Px the onboard led will be used.
  * M48  - Measure Z_Probe repeatability. M48 [P # of points] [X position] [Y position] [V_erboseness #] [E_ngage Probe] [L # of legs of travel]
  * M70  - Power consumption sensor calibration
@@ -95,12 +96,12 @@
  * M98  - Print Hysteresis value
  * M99  - Set Hysteresis parameter M99 X<in mm> Y<in mm> Z<in mm> E<in mm>
  * M100 - Watch Free Memory (For Debugging Only)
- * M104 - Set extruder target temp
+ * M104 - Set Hotend target temp
  * M105 - Read current temp
  * M106 - Fan on
  * M107 - Fan off
- * M109 - Sxxx Wait for extruder current temp to reach target temp. Waits only when heating
- *        Rxxx Wait for extruder current temp to reach target temp. Waits when heating and cooling
+ * M109 - Sxxx Wait for Hotend current temp to reach target temp. Waits only when heating
+ *        Rxxx Wait for Hotend current temp to reach target temp. Waits when heating and cooling
  *        IF AUTOTEMP is enabled, S<mintemp> B<maxtemp> F<factor>. Exit autotemp by any M109 without F
  * M110 - Set the current line number
  * M111 - Set debug flags with S<mask>. See flag bits defined in Marlin.h.
@@ -116,14 +117,17 @@
  * M127 - Solenoid Air Valve Closed (BariCUDA vent to atmospheric pressure by jmil)
  * M128 - EtoP Open (BariCUDA EtoP = electricity to air pressure transducer by jmil)
  * M129 - EtoP Closed (BariCUDA EtoP = electricity to air pressure transducer by jmil)
- * M140 - Set bed target temp
+ * M140 - Set Bed target temp
+ * M141 - Set Chamber target temp
  * M145 - Set the heatup state H<hotend> B<bed> F<fan speed> for S<material> (0=PLA, 1=ABS)
  * M150 - Set BlinkM Color Output R: Red<0-255> U(!): Green<0-255> B: Blue<0-255> over i2c, G for green does not work.
  * M163 - Set a single proportion for a mixing extruder. Requires COLOR_MIXING_EXTRUDER.
  * M164 - Save the mix as a virtual extruder. Requires COLOR_MIXING_EXTRUDER and MIXING_VIRTUAL_TOOLS.
  * M165 - Set the proportions for a mixing extruder. Use parameters ABCDHI to set the mixing factors. Requires COLOR_MIXING_EXTRUDER.
- * M190 - Sxxx Wait for bed current temp to reach target temp. Waits only when heating
- *        Rxxx Wait for bed current temp to reach target temp. Waits when heating and cooling
+ * M190 - Sxxx Wait for Bed current temp to reach target temp. Waits only when heating
+ *        Rxxx Wait for Bed current temp to reach target temp. Waits when heating and cooling
+ * M191 - Sxxx Wait for Chamber current temp to reach target temp. Waits only when heating
+ *        Rxxx Wait for Chamber current temp to reach target temp. Waits when heating and cooling
  * M200 - set filament diameter and set E axis units to cubic millimeters (use S0 to set back to millimeters).:D<millimeters>- 
  * M201 - Set max acceleration in units/s^2 for print moves (M201 X1000 Y1000)
  * M202 - Set max acceleration in units/s^2 for travel moves (M202 X1000 Y1000) Unused in Marlin!!

@@ -64,23 +64,23 @@
 #define Z_MAX_PIN       ORIG_Z_MAX_PIN
 
 // HEATER pin
-#define HEATER_0_PIN    ORIG_HOTEND_0_PIN
-#define HEATER_1_PIN    ORIG_BED_0_PIN
-#define HEATER_2_PIN    ORIG_HOTEND_1_PIN
-#define HEATER_3_PIN    ORIG_HOTEND_2_PIN
-#define HEATER_4_PIN    ORIG_HOTEND_3_PIN
+#define HEATER_0_PIN    ORIG_HEATER_0_PIN
+#define HEATER_1_PIN    ORIG_HEATER_1_PIN
+#define HEATER_2_PIN    ORIG_HEATER_2_PIN
+#define HEATER_3_PIN    ORIG_HEATER_3_PIN
+#define HEATER_4_PIN    ORIG_HEATER_4_PIN
 #define HEATER_5_PIN    ORIG_HEATER_5_PIN
 
 // TEMP pin
 #define TEMP_0_PIN      ORIG_TEMP_0_PIN
-#define TEMP_1_PIN      ORIG_TEMP_BED_0_PIN
+#define TEMP_1_PIN      ORIG_TEMP_1_PIN
 #define TEMP_2_PIN      ORIG_TEMP_2_PIN
 #define TEMP_3_PIN      ORIG_TEMP_3_PIN
 #define TEMP_4_PIN      ORIG_TEMP_4_PIN
 #define TEMP_5_PIN      ORIG_TEMP_5_PIN
 
 // FAN pin
-#define FAN_PIN         -1
+#define FAN_PIN         ORIG_FAN_PIN
 
 // PS ON pin
 #define PS_ON_PIN       ORIG_PS_ON_PIN
@@ -132,7 +132,7 @@
   #define CONTROLLERFAN_PIN -1
 #endif
 
-#define HEATER_0_AUTO_FAN_PIN ORIG_FAN_PIN
+#define HEATER_0_AUTO_FAN_PIN -1
 #define HEATER_1_AUTO_FAN_PIN -1
 #define HEATER_2_AUTO_FAN_PIN -1
 #define HEATER_3_AUTO_FAN_PIN -1

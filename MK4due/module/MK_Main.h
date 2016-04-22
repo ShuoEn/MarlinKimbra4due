@@ -16,9 +16,18 @@ void manage_inactivity(bool ignore_stepper_queue = false);
 void FlushSerialRequestResend();
 void ok_to_send();
 
-bool setTargetedExtruder(int code);
-bool setTargetedHotend(int code);
-bool setTargetedHeater(int code);
+#if EXTRUDERS > 0
+  bool setTargetedExtruder(int code);
+#endif
+#if HEATER_HOTENDS > 0
+  bool setTargetedHotend(int code);
+#endif
+#if HEATER_BEDS > 0
+  bool setTargetedBed(int code);
+#endif
+#if HEATER_CHAMBERS
+  bool setTargetedChamber(int code);
+#endif
 
 #if MECH(DELTA)
   float probe_bed(float x, float y);

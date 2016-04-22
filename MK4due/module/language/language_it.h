@@ -58,6 +58,7 @@
 #define MSG_SPEED                           "Velocita"
 #define MSG_NOZZLE                          "Ugello"
 #define MSG_BED                             "Piatto"
+#define MSG_CHAMBER                         "Camera"
 #define MSG_FAN_SPEED                       "Ventola"
 #define MSG_FLOW                            "Flusso"
 #define MSG_CONTROL                         "Controllo"

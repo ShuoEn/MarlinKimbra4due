@@ -2,8 +2,8 @@
  * MK Firmware
  *
  * Based on Marlin, Sprinter and grbl
- * Copyright (C) 2013 MagoKimbra
  * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2013 - 2016 Alberto Cotronei @MagoKimbra
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -102,7 +102,8 @@ millis_t print_job_start_ms = 0; ///< Print job start time
 millis_t print_job_stop_ms = 0;  ///< Print job stop time
 static uint8_t target_extruder;
 static uint8_t target_hotend;
-static uint8_t target_heater;
+static uint8_t target_bed;
+static uint8_t target_chamber;
 bool no_wait_for_cooling = true;
 bool software_endstops = true;
 
@@ -300,7 +301,7 @@ double printer_usage_filament;
   boolean chdkActive = false;
 #endif
 
-#if ENABLED(PIDTEMP) && ENABLED(PID_ADD_EXTRUSION_RATE)
+#if HAS(PIDTEMP) && ENABLED(PID_ADD_EXTRUSION_RATE)
   int lpq_len = 20;
 #endif
 
@@ -2675,35 +2676,70 @@ static void clean_up_after_endstop_move() {
 #endif // Z_PROBE_SLED
 
 void print_heaterstates() {
-  #if HAS(TEMP_0) || ENABLED(HEATER_0_USES_MAX6675)
-    ECHO_MV(SERIAL_T, Heaters[target_extruder].currentTemperatureC, 1);
-    ECHO_MV(" /", Heaters[target_extruder].targetTemperatureC, 1);
+  #if HEATER_HOTENDS > 0
+    ECHO_MV(SERIAL_T, Heaters[active_hotend].currentTemperatureC, 1);
+    ECHO_MV(" /", Heaters[active_hotend].targetTemperatureC, 1);
   #endif
   #if HEATER_BEDS > 0
-    ECHO_MV(" " SERIAL_B, Heaters[HEATER_HOTENDS].currentTemperatureC, 1);
-    ECHO_MV(" /", Heaters[0].targetTemperatureC, 1);
+    ECHO_MV(" " SERIAL_B, Heaters[MIN_BED].currentTemperatureC, 1);
+    ECHO_MV(" /", Heaters[MIN_BED].targetTemperatureC, 1);
   #endif
+  #if HEATER_CHAMBERS > 0
+    ECHO_MV(" " SERIAL_C, Heaters[MIN_CHAMBER].currentTemperatureC, 1);
+    ECHO_MV(" /", Heaters[MIN_CHAMBER].targetTemperatureC, 1);
+  #endif
+  
   #if HEATER_HOTENDS > 1
-    for (uint8_t heater = 0; heater < NUM_HEATER; heater++) {
+    for (uint8_t heater = 0; heater < HEATER_HOTENDS; heater++) {
       ECHO_MV(" T", heater);
       ECHO_MV(":", Heaters[heater].currentTemperatureC, 1);
       ECHO_MV(" /", Heaters[heater].targetTemperatureC, 1);
     }
   #endif
+
+  #if HEATER_BEDS > 1
+    for (uint8_t heater = MIN_BED; heater <= MAX_BED; heater++) {
+      ECHO_MV(" B", heater);
+      ECHO_MV(":", Heaters[heater].currentTemperatureC, 1);
+      ECHO_MV(" /", Heaters[heater].targetTemperatureC, 1);
+    }
+  #endif
+
+  #if HEATER_CHAMBERS > 1
+    for (uint8_t heater = MIN_CHAMBER; heater <= MAX_CHAMBER; heater++) {
+      ECHO_MV(" C", heater);
+      ECHO_MV(":", Heaters[heater].currentTemperatureC, 1);
+      ECHO_MV(" /", Heaters[heater].targetTemperatureC, 1);
+    }
+  #endif
+
+  #if HEATER_HOTENDS > 0
+    ECHO_M(" " SERIAL_AT ":");
+    #if ENABLED(HOTEND_WATTS)
+      ECHO_VM(((HOTEND_WATTS) * Heaters[active_hotend].getHeaterPower()) / 127, "W");
+    #else
+      ECHO_V(Heaters[active_hotend].getHeaterPower());
+    #endif
+  #endif
+
   #if HEATER_BEDS > 0
     ECHO_M(" " SERIAL_BAT);
     #if ENABLED(BED_WATTS)
-      ECHO_VM(((BED_WATTS) * Heaters[HEATER_HOTENDS].getHeaterPower()) / 127, "W");
+      ECHO_VM(((BED_WATTS) * Heaters[MIN_BED].getHeaterPower()) / 127, "W");
     #else
-      ECHO_V(Heaters[0].getHeaterPower());
+      ECHO_V(Heaters[MIN_BED].getHeaterPower());
     #endif
   #endif
-  ECHO_M(" " SERIAL_AT ":");
-  #if ENABLED(HOTEND_WATTS)
-    ECHO_VM(((HOTEND_WATTS) * Heaters[active_hotend].getHeaterPower()) / 127, "W");
-  #else
-    ECHO_V(Heaters[active_hotend].getHeaterPower());
+
+  #if HEATER_CHAMBERS > 0
+    ECHO_M(" " SERIAL_CAT);
+    #if ENABLED(BED_WATTS)
+      ECHO_VM(((CHAMBER_WATTS) * Heaters[MIN_CHAMBER].getHeaterPower()) / 127, "W");
+    #else
+      ECHO_V(Heaters[MIN_CHAMBER].getHeaterPower());
+    #endif
   #endif
+
   #if HEATER_HOTENDS > 1
     for (uint8_t h = 0; h < HEATER_HOTENDS; ++h) {
       ECHO_MV(" " SERIAL_AT, h);
@@ -2715,10 +2751,11 @@ void print_heaterstates() {
       #endif
     }
   #endif
+
   #if ENABLED(SHOW_TEMP_ADC_VALUES)
-    #if HAS(TEMP_BED_0)
-      ECHO_MV("    ADC B:", Heaters[0].currentTemperatureC, 1);
-      ECHO_MV("C->", Heaters[0].currentTemperature_raw / OVERSAMPLENR, 0);
+    #if HEATER_BEDS > 0
+      ECHO_MV("    ADC B:", Heaters[MIN_BED].currentTemperatureC, 1);
+      ECHO_MV("C->", Heaters[MIN_BED].currentTemperature_raw / OVERSAMPLENR, 0);
     #endif
     for (uint8_t h = 0; h < HEATER_HOTENDS; ++h) {
       ECHO_MV("  T", h);
@@ -2747,7 +2784,7 @@ inline void wait_hotends() {
     now = millis();
     if (now > next_temp_ms) { // Print temp & remaining time every 1s while waiting
       next_temp_ms = now + 1000UL;
-      #if HAS(TEMP_0) || HAS(TEMP_BED_0) || ENABLED(HEATER_0_USES_MAX6675)
+      #if HAS(TEMP)
         print_heaterstates();
       #endif
       #if ENABLED(TEMP_RESIDENCY_TIME)
@@ -2779,13 +2816,13 @@ inline void wait_hotends() {
   print_job_start_ms = previous_cmd_ms;
 }
 
-inline void wait_heater() {
+inline void wait_heater(uint8_t heater) {
   // Exit if the temperature is above target and not waiting for cooling
-  if (no_wait_for_cooling && !Heaters[target_heater].isHeating()) return;
+  if (no_wait_for_cooling && !Heaters[heater].isHeating()) return;
 
   cancel_heatup = false;
   millis_t now = millis(), next_temp_ms = now + 1000UL;
-  while (!cancel_heatup && Heaters[target_heater].targetTemperatureC != Heaters[target_heater].currentTemperatureC) {
+  while (!cancel_heatup && Heaters[heater].targetTemperatureC != Heaters[heater].currentTemperatureC) {
     millis_t now = millis();
     if (now > next_temp_ms) { // Print Temp Reading every 1 second while heating up.
       next_temp_ms = now + 1000UL;
@@ -2794,7 +2831,7 @@ inline void wait_heater() {
     }
     idle();
   }
-  LCD_MESSAGEPGM(MSG_BED_DONE);
+  LCD_MESSAGEPGM(MSG_HEATING_COMPLETE);
   refresh_cmd_timeout();
 }
 
@@ -4419,6 +4456,15 @@ inline void gcode_M17() {
       card.mount();
     }
   }
+
+  #if ENABLED(NEXTION)
+    /**
+     * M35: Upload Firmware to Nextion from SD
+     */
+    inline void gcode_M35() {
+      UploadNewFirmware();
+    }
+  #endif
 #endif
 
 /**
@@ -5039,23 +5085,20 @@ inline void gcode_M92() {
 #endif
 
 /**
- * M104: Set hot end temperature
+ * M104: Set hotend temperature
  */
 inline void gcode_M104() {
   if (setTargetedHotend(104)) return;
   if (debugLevel & DEBUG_DRYRUN) return;
 
-  #if HEATER_HOTENDS == 1
+  #if ENABLED(SINGLENOZZLE)
     if (target_hotend != active_extruder) return;
+    target_hotend = 0;
   #endif
 
   if (code_seen('S')) {
     float temp = code_value();
     setTargetCelsius(temp, target_hotend);
-    #if ENABLED(DUAL_X_CARRIAGE)
-      if (dual_x_carriage_mode == DXC_DUPLICATION_MODE && target_hotend == 0)
-        setTargetHotend1(temp == 0.0 ? 0.0 : temp + duplicate_extruder_temp_offset);
-    #endif
   }
 }
 
@@ -5063,12 +5106,10 @@ inline void gcode_M104() {
  * M105: Read hot end and bed temperature
  */
 inline void gcode_M105() {
-  if (setTargetedHotend(105)) return;
-
   #if HAS(TEMP)
     ECHO_S(OK);
     print_heaterstates();
-  #else // HASNT(TEMP_0) && HASNT(TEMP_BED)
+  #else // HASNT(TEMP)
     ECHO_LM(ER, SERIAL_ERR_NO_THERMISTORS);
   #endif
 
@@ -5088,39 +5129,38 @@ inline void gcode_M105() {
 
 #endif // HAS(FAN)
 
-/**
- * M109: Sxxx Wait for hotend(s) to reach temperature. Waits only when heating.
- *       Rxxx Wait for hotend(s) to reach temperature. Waits when heating and cooling.
- */
-inline void gcode_M109() {
-  if (setTargetedHotend(109)) return;
-  if (debugLevel & DEBUG_DRYRUN) return;
+#if HEATER_HOTENDS > 0
+  /**
+   * M109: Sxxx Wait for hotend(s) to reach temperature. Waits only when heating.
+   *       Rxxx Wait for hotend(s) to reach temperature. Waits when heating and cooling.
+   */
+  inline void gcode_M109() {
+    if (setTargetedHotend(109)) return;
+    if (debugLevel & DEBUG_DRYRUN) return;
 
-  #if ENABLED(SINGLENOZZLE)
-    if (target_hotend != active_extruder) return;
-  #endif
-
-  LCD_MESSAGEPGM(MSG_HEATING);
-
-  no_wait_for_cooling = code_seen('S');
-  if (no_wait_for_cooling || code_seen('R')) {
-    float temp = code_value();
-    setTargetCelsius(temp, target_hotend);
-    #if ENABLED(DUAL_X_CARRIAGE)
-      if (dual_x_carriage_mode == DXC_DUPLICATION_MODE && target_hotend == 0)
-        setTargetHotend1(temp == 0.0 ? 0.0 : temp + duplicate_extruder_temp_offset);
+    #if ENABLED(SINGLENOZZLE)
+      if (target_hotend != active_extruder) return;
+      target_hotend = 0;
     #endif
+
+    LCD_MESSAGEPGM(MSG_HEATING);
+
+    no_wait_for_cooling = code_seen('S');
+    if (no_wait_for_cooling || code_seen('R')) {
+      float temp = code_value();
+      setTargetCelsius(temp, target_hotend);
+    }
+
+    #if ENABLED(AUTOTEMP)
+      autotemp_enabled = code_seen('F');
+      if (autotemp_enabled) autotemp_factor = code_value();
+      if (code_seen('S')) autotemp_min = code_value();
+      if (code_seen('B')) autotemp_max = code_value();
+    #endif
+
+    wait_hotends();
   }
-
-  #if ENABLED(AUTOTEMP)
-    autotemp_enabled = code_seen('F');
-    if (autotemp_enabled) autotemp_factor = code_value();
-    if (code_seen('S')) autotemp_min = code_value();
-    if (code_seen('B')) autotemp_max = code_value();
-  #endif
-
-  wait_hotends();
-}
+#endif
 
 /**
  * M111: Debug mode Repetier Host compatibile
@@ -5304,14 +5344,35 @@ inline void gcode_M122() {
   #endif
 #endif //BARICUDA
 
-/**
- * M140: Set Heater temperature
- */
-inline void gcode_M140() {
-  if (setTargetedHeater(140)) return;
-  if (debugLevel & DEBUG_DRYRUN) return;
-  if (code_seen('S')) Heaters[target_heater].targetTemperatureC = code_value();
-}
+#if HEATER_BEDS > 0
+  /**
+   * M140: Set Bed temperature
+   */
+  inline void gcode_M140() {
+    if (setTargetedBed(140)) return;
+    if (debugLevel & DEBUG_DRYRUN) return;
+
+    if (code_seen('S')) {
+      float temp = code_value();
+      setTargetCelsius(temp, target_bed);
+    }
+  }
+#endif
+
+#if HEATER_CHAMBERS > 0
+  /**
+   * M141: Set Chamber temperature
+   */
+  inline void gcode_M141() {
+    if (setTargetedChamber(141)) return;
+    if (debugLevel & DEBUG_DRYRUN) return;
+
+    if (code_seen('S')) {
+      float temp = code_value();
+      setTargetCelsius(temp, target_chamber);
+    }
+  }
+#endif
 
 #if ENABLED(ULTIPANEL) && TEMP_SENSOR_0 != 0
   /**
@@ -5457,23 +5518,41 @@ inline void gcode_M140() {
   inline void gcode_M165() { gcode_get_mix(); }
 #endif  // COLOR_MIXING_EXTRUDER
 
-#if HAS(TEMP)
+#if HEATER_BEDS > 0
   /**
-   * M190: Sxxx Wait for heater current temp to reach target temp. Waits only when heating
-   *       Rxxx Wait for heater current temp to reach target temp. Waits when heating and cooling
+   * M190: Sxxx Wait for bed current temp to reach target temp. Waits only when heating
+   *       Rxxx Wait for bed current temp to reach target temp. Waits when heating and cooling
    */
   inline void gcode_M190() {
-    if (setTargetedHeater(190)) return;
+    if (setTargetedBed(190)) return;
     if (debugLevel & DEBUG_DRYRUN) return;
 
     LCD_MESSAGEPGM(MSG_HEATING);
     no_wait_for_cooling = code_seen('S');
     if (no_wait_for_cooling || code_seen('R'))
-      Heaters[target_heater].targetTemperatureC = code_value();
+      Heaters[target_bed].targetTemperatureC = code_value();
 
-    wait_heater();
+    wait_heater(target_bed);
   }
-#endif // HAS(TEMP_BED)
+#endif // HEATER_BEDS > 0
+
+#if HEATER_CHAMBERS > 0
+  /**
+   * M191: Sxxx Wait for chamber current temp to reach target temp. Waits only when heating
+   *       Rxxx Wait for chamber current temp to reach target temp. Waits when heating and cooling
+   */
+  inline void gcode_M191() {
+    if (setTargetedChamber(191)) return;
+    if (debugLevel & DEBUG_DRYRUN) return;
+
+    LCD_MESSAGEPGM(MSG_HEATING);
+    no_wait_for_cooling = code_seen('S');
+    if (no_wait_for_cooling || code_seen('R'))
+      Heaters[target_chamber].targetTemperatureC = code_value();
+
+    wait_heater(target_chamber);
+  }
+#endif // HEATER_BEDS > 0
 
 /**
  * M200: Set filament diameter and set E axis units to cubic millimetres
@@ -5872,7 +5951,7 @@ inline void gcode_M226() {
 
 #endif // HAS(BUZZER)
 
-#if ENABLED(PIDTEMP)
+#if HAS(PIDTEMP)
   /**
    * M301: Set PID parameters P I D (and optionally C, L)
    *
@@ -5891,7 +5970,7 @@ inline void gcode_M226() {
     // default behaviour (omitting E parameter) is to update for hotend 0 only
     int h = code_seen('H') ? code_value() : 0; // hotend being updated
 
-    if (h < HEATER_HOTENDS) { // catch bad input value
+    if (h < NUM_HEATER) { // catch bad input value
       if (code_seen('P')) Heaters[h].Kp = code_value();
       if (code_seen('I')) Heaters[h].Ki = scalePID_i(code_value());
       if (code_seen('D')) Heaters[h].Kd = scalePID_d(code_value());
@@ -5915,7 +5994,7 @@ inline void gcode_M226() {
       ECHO_LM(ER, SERIAL_INVALID_HOTEND);
     }
   }
-#endif // PIDTEMP
+#endif // HAS(PIDTEMP)
 
 #if ENABLED(PREVENT_DANGEROUS_EXTRUDE)
   void set_extrude_min_temp(float temp) { extrude_min_temp = temp; }
@@ -5928,35 +6007,20 @@ inline void gcode_M226() {
   }
 #endif // PREVENT_DANGEROUS_EXTRUDE
 
-#if ENABLED(PIDTEMP) || ENABLED(PIDTEMPBED)
+#if HAS(PIDTEMP)
   /**
    * M303: PID relay autotune
    *       S<temperature> sets the target temperature. (default target temperature = 150C)
-   *       H<hotend> (-1 for the bed)
+   *       H<heater>
    *       C<cycles>
    */
   inline void gcode_M303() {
     int h = code_seen('H') ? code_value_short() : 0;
     int c = code_seen('C') ? code_value_short() : 5;
-    float temp = code_seen('S') ? code_value() : (h < 0 ? 70.0 : 150.0);
-    if (h >= 0 && h < HEATER_HOTENDS) target_extruder = h;
+    float temp = code_seen('S') ? code_value() : 150.0;
     PID_autotune(temp, h, c);
   }
 #endif
-
-#if ENABLED(PIDTEMPBED)
-  // M304: Set bed PID parameters P I and D
-  inline void gcode_M304() {
-    if (code_seen('P')) bedKp = code_value();
-    if (code_seen('I')) bedKi = scalePID_i(code_value());
-    if (code_seen('D')) bedKd = scalePID_d(code_value());
-
-    updatePID();
-    ECHO_SMV(OK, "p:", bedKp);
-    ECHO_MV(" i:", unscalePID_i(bedKi));
-    ECHO_EMV(" d:", unscalePID_d(bedKd));
-  }
-#endif // PIDTEMPBED
 
 #if HAS(MICROSTEPS)
   // M350 Set microstepping mode. Warning: Steps per unit remains unchanged. S code sets stepping mode for all drivers.
@@ -6704,15 +6768,15 @@ inline void gcode_M503() {
 
     if (sleep) {
       enable_all_steppers(); // Enable all stepper
-      for(target_hotend = 0; target_hotend < HEATER_HOTENDS; target_hotend++) {
-        setTargetCelsius(old_target_temperature[target_hotend], target_hotend);
+      for(uint8_t heater = 0; heater < HEATER_HOTENDS; heater++) {
+        setTargetCelsius(old_target_temperature[heater], heater);
         no_wait_for_cooling = true;
         wait_hotends();
       }
-      for(target_heater = HEATER_HOTENDS; target_heater < NUM_HEATER; target_heater++) {
-        setTargetCelsius(old_target_temperature[target_heater], target_heater);
+      for(uint8_t heater = MIN_BED; heater < NUM_HEATER; heater++) {
+        setTargetCelsius(old_target_temperature[heater], heater);
         no_wait_for_cooling = true;
-        wait_heater();
+        wait_heater(heater);
       }
       sleep = false;
       beep = true;
@@ -7444,6 +7508,10 @@ void process_next_command() {
           gcode_M31(); break;
         case 32: // M32 - Make directory
           gcode_M32(); break;
+        #if ENABLED(NEXTION)
+          case 35: // M35 - Upload Firmware to Nextion from SD
+            gcode_M35(); break;
+        #endif
       #endif //SDSUPPORT
 
       case 42: // M42 -Change pin status via gcode
@@ -7497,8 +7565,11 @@ void process_next_command() {
           gcode_M100(); break;
       #endif
 
-      case 104: // M104
-        gcode_M104(); break;
+      #if HEATER_HOTENDS > 0
+        case 104: // M104 Set Hotend Temperature
+          gcode_M104(); break;
+      #endif
+
       case 105: // M105 Read current temperature
         gcode_M105(); return; // "ok" already printed
 
@@ -7509,8 +7580,11 @@ void process_next_command() {
           gcode_M107(); break;
       #endif // HAS(FAN)
 
-      case 109: // M109 Wait for temperature
-        gcode_M109(); break;
+      #if HEATER_HOTENDS > 0
+        case 109: // M109 Set and Wait Hotend temperature
+          gcode_M109(); break;
+      #endif
+
       case 110: break; // M110: Set line number - don't show "unknown command"
       case 111: // M111 Set debug level
         gcode_M111(); break;
@@ -7553,8 +7627,15 @@ void process_next_command() {
         #endif // HAS(HOTEND_2)
       #endif // BARICUDA
 
-      case 140: // M140 Set bed temp
-        gcode_M140(); break;
+      #if HEATER_BEDS > 0
+        case 140: // M140 Set bed temp
+          gcode_M140(); break;
+      #endif
+
+      #if HEATER_CHAMBERS > 0
+        case 141: // M140 Set chamber temp
+          gcode_M141(); break;
+      #endif
 
       #if ENABLED(BLINKM)
         case 150: // M150
@@ -7572,10 +7653,15 @@ void process_next_command() {
           gcode_M165(); break;
       #endif
 
-      #if HAS(TEMP_BED)
-        case 190: // M190 - Wait for bed heater to reach target.
+      #if HEATER_BEDS > 0
+        case 190: // M190 - Wait for bed to reach target.
           gcode_M190(); break;
-      #endif //TEMP_BED_PIN
+      #endif
+
+      #if HEATER_CHAMBERS > 0
+        case 191: // M191 - Wait for chamber to reach target.
+          gcode_M191(); break;
+      #endif
 
       case 200: // M200 D<millimetres> set filament diameter and set E axis units to cubic millimetres (use S0 to set back to millimeters).
         gcode_M200(); break;
@@ -7635,25 +7721,20 @@ void process_next_command() {
           gcode_M300(); break;
       #endif // HAS(BUZZER)
 
-      #if ENABLED(PIDTEMP)
+      #if HAS(PIDTEMP)
         case 301: // M301
           gcode_M301(); break;
-      #endif // PIDTEMP
+      #endif // HAS(PIDTEMP)
 
       #if ENABLED(PREVENT_DANGEROUS_EXTRUDE)
         case 302: // allow cold extrudes, or set the minimum extrude temperature
           gcode_M302(); break;
       #endif // PREVENT_DANGEROUS_EXTRUDE
 
-      #if ENABLED(PIDTEMP) || ENABLED(PIDTEMPBED)
+      #if HAS(PIDTEMP)
         case 303: // M303 PID autotune
           gcode_M303(); break;
-      #endif
-
-      #if ENABLED(PIDTEMPBED)
-        case 304: // M304
-          gcode_M304(); break;
-      #endif // PIDTEMPBED
+      #endif // HAS(PIDTEMP)
 
       #if HAS(MICROSTEPS)
         case 350: // M350 Set microstepping mode. Warning: Steps per unit remains unchanged. S code sets stepping mode for all drivers.
@@ -8649,45 +8730,64 @@ void Stop() {
   }
 }
 
-bool setTargetedExtruder(int code) {
-  target_extruder = active_extruder;
-  if (code_seen('T')) {
-    target_extruder = code_value_short();
-    if (target_extruder >= EXTRUDERS) {
-      ECHO_SMV(ER, "M", code);
-      ECHO_EMV(" " SERIAL_INVALID_EXTRUDER, target_extruder);
-      return true;
-    }
-  }
-  return false;
-}
-
-bool setTargetedHotend(int code) {
-  target_hotend = active_hotend;
-  if (code_seen('T')) {
-    target_hotend = code_value_short();
-    #if ENABLED(SINGLENOZZLE)
-      target_hotend = 0;
-    #else
-      if (target_hotend >= HEATER_HOTENDS) {
+#if EXTRUDERS > 0
+  bool setTargetedExtruder(int code) {
+    target_extruder = active_extruder;
+    if (code_seen('T')) {
+      target_extruder = code_value_short();
+      if (target_extruder >= EXTRUDERS) {
         ECHO_SMV(ER, "M", code);
-        ECHO_EMV(" " SERIAL_INVALID_HOTEND, target_hotend);
+        ECHO_EMV(" " SERIAL_INVALID_EXTRUDER, target_extruder);
         return true;
       }
-    #endif
+    }
+    return false;
   }
-  return false;
-}
+#endif
 
-bool setTargetedHeater(int code) {
-  target_heater = (code_seen('T')) ? code_value_short() : HEATER_HOTENDS;
-  if (target_heater >= NUM_HEATER) {
-    ECHO_SMV(ER, "M", code);
-    ECHO_EMV(" " SERIAL_INVALID_HEATER, target_heater);
-    return true;
+#if HEATER_HOTENDS > 0
+  bool setTargetedHotend(int code) {
+    #if ENABLED(SINGLENOZZLE)
+      target_hotend = active_hotend;
+      if (code_seen('T')) target_hotend = code_value_short();
+    #else
+      target_hotend = active_hotend;
+      if (code_seen('T')) {
+        target_hotend = code_value_short();
+        if (target_hotend >= HEATER_HOTENDS) {
+          ECHO_SMV(ER, "M", code);
+          ECHO_EMV(" " SERIAL_INVALID_HOTEND, target_hotend);
+          return true;
+        }
+      }
+    #endif
+    return false;
   }
-  return false;
-}
+#endif
+
+#if HEATER_BEDS > 0
+  bool setTargetedBed(int code) {
+    target_bed = (code_seen('T')) ? (code_value_short() + MIN_BED) : MIN_BED;
+    if (target_bed > MAX_BED) {
+      ECHO_SMV(ER, "M", code);
+      ECHO_EMV(" " SERIAL_INVALID_BED, target_bed);
+      return true;
+    }
+    return false;
+  }
+#endif
+
+#if HEATER_CHAMBERS > 0
+  bool setTargetedChamber(int code) {
+    target_chamber = (code_seen('T')) ? (code_value_short() + MIN_CHAMBER) : MIN_CHAMBER;
+    if (target_chamber > MAX_CHAMBER) {
+      ECHO_SMV(ER, "M", code);
+      ECHO_EMV(" " SERIAL_INVALID_CHAMBER, target_chamber);
+      return true;
+    }
+    return false;
+  }
+#endif
 
 float calculate_volumetric_multiplier(float diameter) {
   if (!volumetric_enabled || diameter == 0) return 1.0;
