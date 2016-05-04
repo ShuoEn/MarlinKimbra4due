@@ -1,4 +1,26 @@
 /**
+ * MK & MK4due 3D Printer Firmware
+ *
+ * Based on Marlin, Sprinter and grbl
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2013 - 2016 Alberto Cotronei @MagoKimbra
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/**
  * sanitycheck.h
  *
  * Test configuration values for errors at compile-time.
@@ -1174,8 +1196,8 @@
   #endif
 
   #if MECH(DELTA)
-    #if DISABLED(DEFAULT_DELTA_DIAGONAL_ROD)
-      #error DEPENDENCY ERROR: Missing setting DEFAULT_DELTA_DIAGONAL_ROD
+    #if DISABLED(DELTA_DIAGONAL_ROD)
+      #error DEPENDENCY ERROR: Missing setting DELTA_DIAGONAL_ROD
     #endif
     #if DISABLED(DELTA_SMOOTH_ROD_OFFSET)
       #error DEPENDENCY ERROR: Missing setting DELTA_SMOOTH_ROD_OFFSET
@@ -1183,8 +1205,8 @@
     #if DISABLED(DELTA_CARRIAGE_OFFSET)
       #error DEPENDENCY ERROR: Missing setting DELTA_CARRIAGE_OFFSET
     #endif
-    #if DISABLED(BED_PRINTER_RADIUS)
-      #error DEPENDENCY ERROR: Missing setting BED_PRINTER_RADIUS
+    #if DISABLED(DELTA_PRINTABLE_RADIUS)
+      #error DEPENDENCY ERROR: Missing setting DELTA_PRINTABLE_RADIUS
     #endif
     #if DISABLED(DEFAULT_DELTA_RADIUS)
       #error DEPENDENCY ERROR: Missing setting DEFAULT_DELTA_RADIUS

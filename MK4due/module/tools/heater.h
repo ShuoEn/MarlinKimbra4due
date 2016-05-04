@@ -150,7 +150,7 @@
   void Update_heater();
   void disable_all_heaters();
   void updatePID();
-  void PID_autotune(float temp, int heater, int ncycles);
+  void PID_autotune(float temp, int heater, int ncycles, bool set_result = false);
   void setHeaterAutoFanState(int pin, bool state);
   void checkHeaterAutoFans();
   void autotempShutdown();

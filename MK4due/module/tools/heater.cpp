@@ -228,7 +228,7 @@ void autotempShutdown() {
   #endif
 }
 
-void PID_autotune(float temp, int heater, int ncycles) {
+void PID_autotune(float temp, int heater, int ncycles, bool set_result/*=false*/) {
   float input = 0.0;
   int cycles = 0;
   bool heating = true;
@@ -275,12 +275,12 @@ void PID_autotune(float temp, int heater, int ncycles) {
       #if HAS(AUTO_FAN)
         if (ms > next_auto_fan_check_ms) {
           checkHeaterAutoFans();
-          next_auto_fan_check_ms = ms + 2500;
+          next_auto_fan_check_ms = ms + 2500UL;
         }
       #endif
 
       if (heating && input > temp) {
-        if (ms > t2 + 5000) {
+        if (ms > t2 + 5000UL) {
           heating = false;
           Heaters[heater].soft_pwm = (bias - d) >> 1;
           t1 = ms;
@@ -290,7 +290,7 @@ void PID_autotune(float temp, int heater, int ncycles) {
       }
 
       if (!heating && input < temp) {
-        if (ms > t1 + 5000) {
+        if (ms > t1 + 5000UL) {
           heating = true;
           t2 = ms;
           t_low = t2 - t1;
@@ -335,7 +335,7 @@ void PID_autotune(float temp, int heater, int ncycles) {
     }
 
     // Every 2 seconds...
-    if (ms > temp_ms + 2000) {
+    if (ELAPSED(ms, temp_ms + 2000UL)) {
       print_heaterstates();
       ECHO_E;
 
@@ -350,10 +350,12 @@ void PID_autotune(float temp, int heater, int ncycles) {
     if (cycles > ncycles) {
       ECHO_LM(DB, SERIAL_PID_AUTOTUNE_FINISHED);
       if (heater >= 0) {
-        Heaters[heater].Kp = Kp_temp;
-        Heaters[heater].Ki = scalePID_i(Ki_temp);
-        Heaters[heater].Kd = scalePID_d(Kd_temp);
-        updatePID();
+        if (set_result) {
+          Heaters[heater].Kp = Kp_temp;
+          Heaters[heater].Ki = scalePID_i(Ki_temp);
+          Heaters[heater].Kd = scalePID_d(Kd_temp);
+          updatePID();
+        }
 
         ECHO_SMV(DB, SERIAL_KP, Heaters[heater].Kp);
         ECHO_MV(SERIAL_KI, unscalePID_i(Heaters[heater].Ki));

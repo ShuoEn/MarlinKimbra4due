@@ -22,6 +22,7 @@
 // SERIAL PORT selects which serial port should be used for communication with the host.
 // This allows the connection of wireless adapters (for instance) to non-default port pins.
 // Serial port 0 is still used by the Arduino bootloader regardless of this setting.
+// Valid values are 0-3 for Serial, Serial1, Serial2, Serial3 and -1 for SerialUSB
 #define SERIAL_PORT 0
 
 // This determines the communication speed of the printer
@@ -52,9 +53,14 @@
 //#define FIRMWARE_TEST
 
 // Some particular clients re-start sending commands only after receiving a 'wait' when there is a bad serial-connection.
-//#define NO_TIMEOUTS
+//#define NO_TIMEOUTS 1000 // Milliseconds
 // Uncomment to include more info in ok command
 //#define ADVANCED_OK
+
+// By default MarlinKimbra will send a busy status message to the host
+// every couple of seconds when it can't accept commands.
+// Enable this option if your host doesn't like keepalive messages.
+//#define DISABLE_HOST_KEEPALIVE
 /***********************************************************************/
 
 

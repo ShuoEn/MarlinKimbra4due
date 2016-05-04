@@ -1,5 +1,23 @@
 /**
- * pins.h
+ * MK & MK4due 3D Printer Firmware
+ *
+ * Based on Marlin, Sprinter and grbl
+ * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
+ * Copyright (C) 2013 - 2016 Alberto Cotronei @MagoKimbra
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 #ifndef PINS_H
@@ -297,41 +315,30 @@
 #else
   #define _H0_PINS
 #endif
-#if HOTENDS > 1
+#if NUM_HEATER > 1
   #define _H1_PINS HEATER_1_PIN, analogInputToDigitalPin(TEMP_1_PIN),
 #else
   #define _H1_PINS
 #endif
-#if HOTENDS > 2
+#if NUM_HEATER > 2
   #define _H2_PINS HEATER_2_PIN, analogInputToDigitalPin(TEMP_2_PIN),
 #else
   #define _H2_PINS
 #endif
-#if HOTENDS > 3
+#if NUM_HEATER > 3
   #define _H3_PINS HEATER_3_PIN, analogInputToDigitalPin(TEMP_3_PIN),
 #else
   #define _H3_PINS
 #endif
-
-#if BEDS > 0
-  #define _B0_PINS BED_0_PIN, analogInputToDigitalPin(TEMP_BED_0_PIN),
+#if NUM_HEATER > 4
+  #define _H4_PINS HEATER_4_PIN, analogInputToDigitalPin(TEMP_4_PIN),
 #else
-  #define _B0_PINS
+  #define _H4_PINS
 #endif
-#if BEDS > 1
-  #define _B1_PINS BED_1_PIN, analogInputToDigitalPin(TEMP_BED_1_PIN),
+#if NUM_HEATER > 5
+  #define _H5_PINS HEATER_5_PIN, analogInputToDigitalPin(TEMP_5_PIN),
 #else
-  #define _B1_PINS
-#endif
-#if BEDS > 2
-  #define _B2_PINS BED_2_PIN, analogInputToDigitalPin(TEMP_BED_2_PIN),
-#else
-  #define _B2_PINS
-#endif
-#if BEDS > 3
-  #define _B3_PINS BED_3_PIN, analogInputToDigitalPin(TEMP_BED_3_PIN),
-#else
-  #define _B3_PINS
+  #define _H5_PINS
 #endif
 
 #if DRIVER_EXTRUDERS > 0
@@ -370,8 +377,7 @@
                         Y_STEP_PIN, Y_DIR_PIN, Y_ENABLE_PIN, Y_MIN_PIN, Y_MAX_PIN, \
                         Z_STEP_PIN, Z_DIR_PIN, Z_ENABLE_PIN, Z_MIN_PIN, Z_MAX_PIN, Z_PROBE_PIN, \
                         PS_ON_PIN, FAN_PIN, \
-                        _H0_PINS _H1_PINS _H2_PINS _H3_PINS \
-                        _B0_PINS _B1_PINS _B2_PINS _B3_PINS \
+                        _H0_PINS _H1_PINS _H2_PINS _H3_PINS _H4_PINS _H5_PINS \
                         _E0_PINS _E1_PINS _E2_PINS _E3_PINS _E4_PINS _E5_PINS \
                        }
 
