@@ -5440,6 +5440,202 @@ DaveX plan for Teensylu/printrboard-type pinouts (ref teensylu & sprinter) for a
   #endif
 #endif
 
+/****************************************************************************************
+* 405
+*
+****************************************************************************************/
+#if MB(FLUX)
+	#define KNOWN_BOARD 1
+
+	#ifndef __SAM3X8E__
+	#error Oops!  Make sure you have 'Arduino Due' selected from the 'Tools -> Boards' menu.
+	#endif
+
+
+
+	//#if MB(FLUX)
+	//#define INVERTED_HEATER_PINS
+	//#define RAMPS_FD_V1
+	//#define INVERTED_HEATER_PINS
+	// No EEPROM
+	// Use 4k7 thermistor tables
+	//#else
+	#define FLUX
+	// EEPROM supported
+	// Use 1k thermistor tables
+	//#endif
+
+	#define A_STOP 25 //PD0
+	#define B_STOP 26 //PD1
+	#define C_STOP 27 //PD2
+
+	#define F0_STOP 28 //PD3
+	#define F1_STOP 29 //PD6
+
+	//#define LED_1 11 //PD7
+	#define M_IO1 11 //PD7
+	//#define LED_2 12 //PD8
+	#define M_IO2 12 //PD8
+	//#define LED_3 30 //PD9
+	#define CAP_IO 30 //PD9
+	//#define LED_4 32 //PD10
+	#define REF_IO 32 //PD10
+
+
+	//#define ERASE //PC0
+	#define DIR1 33 //PC1
+	#define STP1 34 //PC2
+	#define EN1  35 //PC3
+
+	#define REFC1 37 //PC5
+	//#define ERR1 37 //PC5
+
+	#define DIR2 38 //PC6
+	#define STP2 39 //PC7
+	#define EN2  40 //PC8
+
+	#define REFC2 41 //PC9
+	//#define ERR2 41 //PC9
+
+	#define DIR3 51 //PC12
+	#define STP3 50 //PC13
+	#define EN3  49 //PC14
+
+	#define REFC3 48 //PC15
+	//#define ERR3 48 //PC15
+
+	#define DIR4 47 //PC16
+	#define STP4 46 //PC17
+	#define EN4  45 //PC18
+
+	#define REFC4 44 //PC19
+	//#define SLEEP 44 //PC19
+
+	#define LED_P1 9 //PC21
+	#define LED_P2 8 //PC22
+	#define LED_P3 7 //PC23
+
+	#define HOME_K 6 //PC24
+
+	#define S_LAS1 5 //PC25
+	#define S_LAS2 4 //PC26
+
+
+	#define R_IO1 64 //PB19
+	#define R_IO2 65 //PB20
+
+	#define DIR6 61 //PA2
+	#define STP6 62 //PB17
+	#define EN6  63 //PB18
+
+	#define POT_SDA 20 //PB12
+	#define POT_SCL 21 //PB13
+
+	#define DIR5 58 //PA6
+	#define STP5 59 //PA4
+	#define EN5  60 //PA3
+
+	#define M_TX 0 //PA8
+	#define M_RX 1 //PA9
+
+	#define AD0 54 //PA16
+	#define AD1 55 //PA24
+	#define AD2 56 //PA23
+	#define AD3 57 //PA22
+
+
+
+
+	#define ORIG_X_STEP_PIN         STP1//STP4//63
+	#define ORIG_X_DIR_PIN          DIR1//DIR4//62
+	#define ORIG_X_ENABLE_PIN       EN1//EN4//48
+	#define ORIG_X_MIN_PIN          -1//22
+	#define ORIG_X_MAX_PIN          A_STOP//30
+
+	#define ORIG_Y_STEP_PIN         STP2//AD1//65
+	#define ORIG_Y_DIR_PIN          DIR2//AD2//64
+	#define ORIG_Y_ENABLE_PIN       EN2//AD0//46
+	#define ORIG_Y_MIN_PIN          -1//24
+	#define ORIG_Y_MAX_PIN          B_STOP//38
+
+	#define ORIG_Z_STEP_PIN         STP3//STP6//67
+	#define ORIG_Z_DIR_PIN          DIR3//DIR6//66
+	#define ORIG_Z_ENABLE_PIN       EN3//EN6//444
+
+	#define ORIG_Z_MIN_PIN          -1//26
+	#define ORIG_Z_MAX_PIN          C_STOP//34
+
+	#define Z_PROBE_PIN        -1
+	//#define Z_PROBE_PIN        F0_STOP//29//26//15
+
+
+	//aven_0414_2015 Enable z_probe_endstop end
+
+	#define ORIG_E2_STEP_PIN        STP4//36
+	#define ORIG_E2_DIR_PIN         DIR4//28
+	#define ORIG_E2_ENABLE_PIN      EN4//42
+
+	#define ORIG_E0_STEP_PIN        STP5//59//43
+	#define ORIG_E0_DIR_PIN         DIR5//58//41
+	#define ORIG_E0_ENABLE_PIN      EN5//60//39
+
+	#define ORIG_E1_STEP_PIN        STP6//STP2//62//32
+	#define ORIG_E1_DIR_PIN         DIR6//DIR2//61//47
+	#define ORIG_E1_ENABLE_PIN      EN6//EN2//60//4547
+
+	#define SDPOWER            -1
+	#define SDSS               -1///4
+	#define LED_PIN            -1//13
+
+	#define BEEPER             -1
+
+	#define ORIG_FAN_PIN            -1
+
+	#define CONTROLLERFAN_PIN  -1 //Pin used for the fan to cool controller
+
+	#define PS_ON_PIN          -1
+
+	#define KILL_PIN           -1
+
+	#define ORIG_HEATER_BED_PIN     -1//8    // BED
+
+	#define ORIG_HEATER_0_PIN       -1//13//9
+	#define ORIG_HEATER_1_PIN       -1//10
+	#define ORIG_HEATER_2_PIN       -1//11
+
+	#define ORIG_TEMP_BED_PIN       -1//0   // ANALOG NUMBERING
+
+	#define ORIG_TEMP_0_PIN         AD0//-1///1   // ANALOG NUMBERING
+	#define ORIG_TEMP_1_PIN         AD1  // 2    // ANALOG NUMBERING
+	#define ORIG_TEMP_2_PIN         AD2  // 3     // ANALOG NUMBERING
+
+	#define ORIG_TEMP_3_PIN         -1   // ANALOG NUMBERING
+	#define ORIG_TEMP_4_PIN         -1   // ANALOG NUMBERING
+
+	#define U5EN 3 //PC28
+	#define U5FAULT 72//PC30
+	#define S_LAS1 5 //PC25
+	#define S_LAS2 4 //PC26
+
+
+
+
+	#ifdef NUM_SERVOS
+	#define SERVO0_PIN         -1//11
+
+	#if NUM_SERVOS > 1
+	#define SERVO1_PIN         -1//6
+	#endif
+
+	#if NUM_SERVOS > 2
+	#define SERVO2_PIN         -1//5
+	#endif
+
+
+	#define HOME_BTN_PIN      6
+
+	#endif
+#endif
 
 /****************************************************************************************/
 #include "Configuration_Pins.h"

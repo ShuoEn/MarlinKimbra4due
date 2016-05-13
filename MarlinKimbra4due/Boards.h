@@ -69,6 +69,8 @@
 
 #define BOARD_99                99   // This is in pins.h but...?
 
+#define BOARD_FLUX				405
+
 #define MB(board) (MOTHERBOARD==BOARD_##board)
 
 #endif

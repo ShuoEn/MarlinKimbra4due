@@ -1557,6 +1557,7 @@
   /**
    * Test required HEATER defines
    */
+/*
   #if HOTENDS > 3
     #if HASNT(HEATER_3)
       #error DEPENDENCY ERROR: HEATER_3_PIN not EXIST for this board
@@ -1574,7 +1575,7 @@
       #error DEPENDENCY ERROR: HEATER_0_PIN not EXIST for this board
     #endif
   #endif
-  
+  */
   #if DISABLED(SDSUPPORT) && ENABLED(SD_SETTINGS)
     #error DEPENDENCY ERROR: You have to enable SDSUPPORT to use SD_SETTINGS
   #endif

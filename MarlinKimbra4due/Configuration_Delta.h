@@ -36,7 +36,7 @@
  * Displayed in the LCD "Ready" message.                                                 *
  *                                                                                       *
  *****************************************************************************************/
-#define CUSTOM_MACHINE_NAME "Prusa"
+#define CUSTOM_MACHINE_NAME "FLUX DELTA"
 /*****************************************************************************************/
 
 
@@ -48,22 +48,22 @@
 // and processor overload (too many expensive sqrt calls).
 // The new function do not use segments per second but segments per mm
 // if you want use new function comment this (using // at the start of the line)
-#define DELTA_SEGMENTS_PER_SECOND 150
+#define DELTA_SEGMENTS_PER_SECOND 200
 
 // Center-to-center distance of the holes in the diagonal push rods.
-#define DEFAULT_DELTA_DIAGONAL_ROD 217.0    // mm
+#define DEFAULT_DELTA_DIAGONAL_ROD 189.75    // mm
 
 // Horizontal offset from middle of printer to smooth rod center.
-#define DELTA_SMOOTH_ROD_OFFSET 145.0       // mm
+#define DELTA_SMOOTH_ROD_OFFSET 132.0       // mm
 
 // Horizontal offset of the universal joints on the end effector.
-#define DELTA_EFFECTOR_OFFSET 20.0          // mm
+#define DELTA_EFFECTOR_OFFSET 25.0          // mm
 
 // Horizontal offset of the universal joints on the carriages.
-#define DELTA_CARRIAGE_OFFSET 20.0          // mm
+#define DELTA_CARRIAGE_OFFSET 9.75          // mm
 
 // Bed Printer radius
-#define BED_PRINTER_RADIUS 75               // mm
+#define BED_PRINTER_RADIUS 88               // mm
 
 //Endstop Offset Adjustment - All values are in mm and must be negative (to move down away from endstop switches) 
 #define TOWER_A_ENDSTOP_ADJ 0 // Front Left Tower
@@ -119,7 +119,7 @@
 
 // Z-Probe variables
 // X, Y, Z, E distance between hotend nozzle and deployed bed leveling probe.
-#define Z_PROBE_OFFSET {0, 0, -1}
+#define Z_PROBE_OFFSET {0, 0, 0}
 
 // Start and end location values are used to deploy/retract the probe (will move from start to end and back again)
 #define Z_PROBE_DEPLOY_START_LOCATION {0, 0, 20}   // X, Y, Z, E start location for z-probe deployment sequence
@@ -128,7 +128,7 @@
 #define Z_PROBE_RETRACT_END_LOCATION {0, 0, 20}    // X, Y, Z, E end location for z-probe retract sequence
 
 // How much the nozzle will be raised when travelling from between next probing points
-#define Z_RAISE_BETWEEN_PROBINGS 5
+#define Z_RAISE_BETWEEN_PROBINGS 3
 
 // Works best with ACCURATE_BED_LEVELING_POINTS 5 or higher.
 #define AUTO_BED_LEVELING_GRID_POINTS 9
@@ -296,7 +296,7 @@
 //Manual homing switch locations:
 #define MANUAL_X_HOME_POS 0
 #define MANUAL_Y_HOME_POS 0
-#define MANUAL_Z_HOME_POS 200      // Distance between nozzle and print surface after homing.
+#define MANUAL_Z_HOME_POS 242      // Distance between nozzle and print surface after homing.
 /*****************************************************************************************/
 
 
@@ -305,15 +305,15 @@
  *****************************************************************************************/
 #define XYZ_STEPS_PER_UNIT 80
  // Default steps per unit                              X,                  Y,                  Z,  E0...(per extruder)
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {XYZ_STEPS_PER_UNIT, XYZ_STEPS_PER_UNIT, XYZ_STEPS_PER_UNIT, 625, 625, 625, 625}
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {XYZ_STEPS_PER_UNIT, XYZ_STEPS_PER_UNIT, XYZ_STEPS_PER_UNIT, 95, 25.6, 25.6, 625}
 /*****************************************************************************************/
 
 
 /*****************************************************************************************
  ********************************** Axis feedrate ****************************************
  *****************************************************************************************/
-#define XYZ_MAX_FEEDRATE              500   // (mm/sec)
-#define XYZ_MANUAL_FEEDRATE           50    // (mm/min)
+#define XYZ_MAX_FEEDRATE              300   // (mm/sec)
+#define XYZ_MANUAL_FEEDRATE           100    // (mm/min)
 //                                                    X,                Y,                Z, E0...(per extruder). (mm/sec)
 #define DEFAULT_MAX_FEEDRATE          {XYZ_MAX_FEEDRATE, XYZ_MAX_FEEDRATE, XYZ_MAX_FEEDRATE, 100, 100, 100, 100}
 // Feedrates for manual moves along                      X,                   Y,                   Z, E from panel
@@ -330,13 +330,13 @@
 /*****************************************************************************************
  ******************************** Axis accelleration *************************************
  *****************************************************************************************/
-#define XYZ_MAX_ACCELERATION          5000 // (mm/s^2)
+#define XYZ_MAX_ACCELERATION          1000 // (mm/s^2)
 //  Maximum start speed for accelerated moves.            X,                    Y,                    Z,   E0...(per extruder)
 #define DEFAULT_MAX_ACCELERATION      {XYZ_MAX_ACCELERATION, XYZ_MAX_ACCELERATION, XYZ_MAX_ACCELERATION, 1000, 1000, 1000, 1000}
 //  Maximum acceleration in mm/s^2 for retracts   E0... (per extruder)
-#define DEFAULT_RETRACT_ACCELERATION  {10000, 10000, 10000, 10000}
+#define DEFAULT_RETRACT_ACCELERATION  {150, 150, 150, 150}
 //  X, Y, Z and E* maximum acceleration in mm/s^2 for printing moves
-#define DEFAULT_ACCELERATION          3000
+#define DEFAULT_ACCELERATION          1000
 //  X, Y, Z acceleration in mm/s^2 for travel (non printing) moves
 #define DEFAULT_TRAVEL_ACCELERATION   3000
 /*****************************************************************************************/
@@ -367,7 +367,7 @@
 // homing hits the endstop, then retracts by this distance, before it tries to slowly bump again:
 #define XYZ_HOME_BUMP_MM 5
 // Re-Bump Speed Divisor (Divides the Homing Feedrate)
-#define XYZ_BUMP_DIVISOR 10
+#define XYZ_BUMP_DIVISOR 5
 /*****************************************************************************************/
 
 
